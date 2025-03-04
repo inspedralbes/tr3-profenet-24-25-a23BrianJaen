@@ -8,6 +8,6 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: import.meta.env.ASTRO_PORT
+    port: import.meta.env.ASTRO_PORT || 4400
   }
 });
