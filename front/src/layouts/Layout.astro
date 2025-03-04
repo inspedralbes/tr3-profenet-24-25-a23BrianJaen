@@ -17,16 +17,17 @@ const { children } = Astro.props; // Recibe el contenido de las páginas
   </head>
   <body class="min-h-screen w-full flex">
     <!-- Sidebar -->
-
     <Sidebar />
-
     <!-- Main Content -->
     <div class="flex-1 flex flex-col">
       <Header />
       <!-- Page Content -->
-      <main class="flex-1 p-6 bg-gray-100">
+      <main class="flex-1 p-6 bg-white">
         <slot />
       </main>
+      <footer>
+        <p class="text-center text-gray-400 text-sm mb-3 border-t border-gray-600">© 2024 ProfeNet. All rights reserved.</p>
+      </footer>
     </div>
   </body>
 </html>

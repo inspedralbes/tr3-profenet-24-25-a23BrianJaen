@@ -9,8 +9,9 @@ const navigation = [
   { name: "Configuració", href: "/settings", icon: Settings },
 ];
 
+const user = null
+
 const currentPath = Astro.url.pathname;
-console.log(currentPath);
 ---
 
 <div class="flex h-full w-56 flex-col bg-card">
@@ -19,7 +20,7 @@ console.log(currentPath);
       {
         navigation.map((item) => {
           const isActive = currentPath === item.href;
-  
+
           const Icon = item.icon;
           return (
             <a
@@ -37,8 +38,9 @@ console.log(currentPath);
           );
         })
       }
-      <div class=" bottom-0 w-full px-2 py-4">
-        <h1>Texto abajo</h1>
-      </div>
+        <div class="grid grid-cols-2 fixed bottom-0 px-2 mb-1.5 py-4 border border-amber-600">
+          <p class="justify-content-center">Name Firstname</p>
+            <!-- <img class="w-16 h-16" src="/images/profe.png" alt={user || 'Usuari'}> -->
+        </div>
     </aside>
   </div>
