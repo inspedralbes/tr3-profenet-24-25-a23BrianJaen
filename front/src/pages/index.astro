@@ -2,11 +2,10 @@
 import "../styles/normalize.css";
 import "../styles/global.css";
 import Layout from "../layouts/Layout.astro";
+import Home from "./home.astro";
 
-const user = null
 ---
 
 <Layout>
-  <h1 class="text-2xl font-bold">Benvingut a ProfeNet, { user ||'Usuari'}</h1>
-  <p>Este es el contenido principal de la página de inicio.</p>
+  <Home />
 </Layout>

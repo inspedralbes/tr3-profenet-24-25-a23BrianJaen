@@ -1,6 +1,6 @@
 FROM node:23.6.0
 
-WORKDIR /app
+WORKDIR /front
 
 COPY package*.json ./
 
@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 5173
+EXPOSE 4321
 
-CMD [ "npm", "run", "serve" ]%   
+CMD [ "npm", "run", "dev", "--", "--host"] 
