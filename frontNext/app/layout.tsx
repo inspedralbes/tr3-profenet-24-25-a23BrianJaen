@@ -11,7 +11,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ca">
       <body className="min-h-screen w-full flex">
         <ThemeProvider
           attribute="class"
@@ -19,7 +19,6 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          {/* Sidebar  */}
           <Sidebar />
           {/* Main Content */}
           <div className="flex-1 flex flex-col">

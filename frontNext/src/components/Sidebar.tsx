@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation'
 
 
 export default function Sidebar() {
-
   const pathname = usePathname()
 
   const navigation = [
