@@ -46,7 +46,7 @@ export default function Sidebar() {
             );
           })
         }
-        <div className="flex fixed bottom-0 px-2 mb-1.5 py-4 border border-amber-600">
+        <div className="flex fixed bottom-0 px-2 mb-1.5 py-4">
           <p className="place-self-end mr-3">Name Firstname</p>
           <Image
             className="w-16 h-16 cursor-pointer"

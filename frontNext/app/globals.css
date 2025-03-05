@@ -27,7 +27,7 @@
   }
 
   /* Theme dark */
-  body.dark {
+  .dark {
     --background: 220 75% 6%;
     --foreground: 186 10% 98%;
     --card: 186 70% 3%;
