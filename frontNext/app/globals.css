@@ -49,14 +49,3 @@
     --ring: 186 70% 50%;
   }
 }
-
-/* Aplicación de los estilos base */
-/* @layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-} */

@@ -51,7 +51,7 @@ export default function Sidebar() {
           <p className="place-self-end mr-3">Bernat Garcia</p>
           <Image
             className="w-16 h-16 cursor-pointer"
-            src="/images/profe.png"
+            src="/images/docent.png"
             alt={user || "Usuari"}
             width={100}
             height={100}

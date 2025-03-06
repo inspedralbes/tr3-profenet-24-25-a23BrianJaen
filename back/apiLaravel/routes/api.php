@@ -10,5 +10,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get('/getProfessors', [ProfesController::class, 'getProfessors']);
+Route::get('/getTeachers', [ProfesController::class, 'getTeachers']);
 Route::get('/getClasses', [ClassController::class, 'getClasses']);

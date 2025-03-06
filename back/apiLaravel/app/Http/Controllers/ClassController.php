@@ -11,23 +11,23 @@ class ClassController extends Controller
     $classesJson = [
       [
         "id" => 101,
-        "nombre" => "Matemáticas Avanzadas"
+        "name" => "Matemáticas Avanzadas"
       ],
       [
         "id" => 102,
-        "nombre" => "Historia del Arte"
+        "name" => "Historia del Arte"
       ],
       [
         "id" => 103,
-        "nombre" => "Física Cuántica"
+        "name" => "Física Cuántica"
       ],
       [
         "id" => 104,
-        "nombre" => "Literatura Universal"
+        "name" => "Literatura Universal"
       ],
       [
         "id" => 105,
-        "nombre" => "Programación en JavaScript"
+        "name" => "Programación en JavaScript"
       ]
     ];
 

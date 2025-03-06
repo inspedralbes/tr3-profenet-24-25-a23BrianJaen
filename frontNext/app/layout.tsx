@@ -15,7 +15,7 @@ export default function RootLayout({
       <body className="min-h-screen w-full flex bg-background">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange
         >
@@ -28,9 +28,7 @@ export default function RootLayout({
               {children}
             </main>
             <footer>
-              <p
-                className="text-center text-primary text-sm mb-3 border-t border-muted"
-              >
+              <p className="text-center text-primary text-sm mb-3 border-t border-muted">
                 © 2024 ProfeNet. All rights reserved.
               </p>
             </footer>

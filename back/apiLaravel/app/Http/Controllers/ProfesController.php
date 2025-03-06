@@ -10,43 +10,43 @@ class ProfesController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function getProfessors()
+  public function getTeachers()
   {
 
-    $professorsJson = [
+    $teachersJson = [
       [
         "id" => 1,
-        "nombre" => "Juan",
-        "apellido" => "Pérez",
-        "correo" => "juan.perez@moodle.com"
+        "name" => "Juan",
+        "firstname" => "Pérez",
+        "mail" => "juan.perez@moodle.com"
       ],
       [
         "id" => 2,
-        "nombre" => "María",
-        "apellido" => "Gómez",
-        "correo" => "maria.gomez@moodle.com"
+        "name" => "María",
+        "firstname" => "Gómez",
+        "mail" => "maria.gomez@moodle.com"
       ],
       [
         "id" => 3,
-        "nombre" => "Carlos",
-        "apellido" => "Rodríguez",
-        "correo" => "carlos.rodriguez@moodle.com"
+        "name" => "Carlos",
+        "firstname" => "Rodríguez",
+        "mail" => "carlos.rodriguez@moodle.com"
       ],
       [
         "id" => 4,
-        "nombre" => "Ana",
-        "apellido" => "Fernández",
-        "correo" => "ana.fernandez@moodle.com"
+        "name" => "Ana",
+        "firstname" => "Fernández",
+        "mail" => "ana.fernandez@moodle.com"
       ],
       [
         "id" => 5,
-        "nombre" => "Luis",
-        "apellido" => "Martínez",
-        "correo" => "luis.martinez@moodle.com"
+        "name" => "Luis",
+        "firstname" => "Martínez",
+        "mail" => "luis.martinez@moodle.com"
       ]
     ];
 
-    return response()->json($professorsJson);
+    return response()->json($teachersJson);
   }
 
   /**
