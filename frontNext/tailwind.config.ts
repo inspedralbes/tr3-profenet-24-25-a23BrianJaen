@@ -3,7 +3,7 @@ import tailwindcssAnimate from 'tailwindcss-animate';
 
 
 const config: Config = {
-  darkMode: ['class'],
+  darkMode: 'class',
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -19,6 +19,7 @@ const config: Config = {
       },
       colors: {
         background: 'hsl(var(--background))',
+        'background-dark': '#1a202c', // Fondo oscuro
         foreground: 'hsl(var(--foreground))',
         card: {
           DEFAULT: 'hsl(var(--card))',

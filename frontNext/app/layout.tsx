@@ -12,12 +12,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ca">
-      <body className="min-h-screen w-full flex bg-background">
+      <body className="min-h-screen w-full flex bg-background font-sans">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
-          enableSystem={false}
-          disableTransitionOnChange
+          enableSystem={true}
         >
           <Sidebar />
           {/* Main Content */}

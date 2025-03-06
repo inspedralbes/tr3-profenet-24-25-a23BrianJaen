@@ -1,10 +1,9 @@
-import * as React from 'react';
 import Image from 'next/image';
 import { type Professor } from "../../src/types/types";
 
 // Define props for the ClientTeachers component
 interface MediaCardProps {
-  teacher: Professor[];
+  teacher: Professor;
 }
 
 export default function MediaCard({ teacher }: MediaCardProps) {
