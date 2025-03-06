@@ -1,0 +1,76 @@
+services:
+  # DATABASE
+  db:
+    image: mysql:8.2.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: profenet
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # Moodle
+  moodle:
+    image: bitnami/moodle:latest
+    container_name: moodle_app
+    restart: always
+    ports:
+      - "8090:8080"
+      - "8443:8443"
+    environment:
+      MOODLE_DATABASE_TYPE: mysqli
+      MOODLE_DATABASE_HOST: db
+      MOODLE_DATABASE_PORT_NUMBER: 3306
+      MOODLE_DATABASE_USER: root
+      MOODLE_DATABASE_PASSWORD: root
+      MOODLE_DATABASE_NAME: profenet
+    depends_on:
+      - db
+    volumes:
+      - moodle_data:/bitnami/moodle
+      - moodle_data_moodledata:/bitnami/moodledata
+
+  # ADMINER
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+  # LARAVEL
+  laravel:
+    build: ./back/apiLaravel
+    ports:
+      - 8000:8000
+    volumes:
+      - ./back/apiLaravel:/var/www/
+    working_dir: /var/www/
+    depends_on:
+      - db
+    command: bash -c "chmod -R 777 /var/www/storage /var/www/bootstrap/cache && composer install && php artisan serve --host=0.0.0.0"
+
+  # NEXTJS
+  next:
+    build:
+      context: ./front
+    ports:
+      - 3000:3000
+    volumes:
+      - ./front:/app
+    depends_on:
+      - laravel
+    environment:
+      NUXT_APP_API_URL: http://laravel:8000
+      CHOKIDAR_USEPOLLING: true
+    command: bash -c "npm install && npm run dev"
+
+volumes:
+  mysql_data:
+  moodle_data:
+  moodle_data_moodledata:
