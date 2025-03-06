@@ -3,10 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfesController;
+use App\Http\Controllers\ClassController;
 
 Route::get('/user', function (Request $request) {
   return $request->user();
 })->middleware('auth:sanctum');
 
 
-Route::get('/profe/{id}', [ProfesController::class, 'index']);
+Route::get('/getProfessors', [ProfesController::class, 'getProfessors']);
+Route::get('/getClasses', [ClassController::class, 'getClasses']);

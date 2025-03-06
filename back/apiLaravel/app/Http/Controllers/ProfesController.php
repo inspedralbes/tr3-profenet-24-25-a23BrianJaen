@@ -10,41 +10,43 @@ class ProfesController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index(string $id)
+  public function getProfessors()
   {
-    // Obtener profesores y sus departamentos
-    $profesores = DB::connection('profenet')->select("
-    SELECT 
-    u.id AS" . $id . ", 
-    u.firstname, 
-    u.lastname, 
-    u.email, 
-    c.name AS department
-    FROM 
-        mdl_user u
-    JOIN 
-        mdl_role_assignments ra ON u.id = ra.userid
-    JOIN 
-        mdl_role r ON ra.roleid = r.id
-    JOIN 
-        mdl_context ctx ON ra.contextid = ctx.id
-    JOIN 
-        mdl_course co ON ctx.instanceid = co.id
-    JOIN 
-        mdl_course_categories c ON co.category = c.id
-    WHERE 
-        r.shortname = 'teacher'
-    ORDER BY 
-        c.name, u.lastname;
-    ");
-    dd($profesores);
 
-    // $profesores = DB::connection('profenet')->select("
-    // SELECT id 
-    // FROM 
-    //     mdl_user u;");
+    $professorsJson = [
+      [
+        "id" => 1,
+        "nombre" => "Juan",
+        "apellido" => "Pérez",
+        "correo" => "juan.perez@moodle.com"
+      ],
+      [
+        "id" => 2,
+        "nombre" => "María",
+        "apellido" => "Gómez",
+        "correo" => "maria.gomez@moodle.com"
+      ],
+      [
+        "id" => 3,
+        "nombre" => "Carlos",
+        "apellido" => "Rodríguez",
+        "correo" => "carlos.rodriguez@moodle.com"
+      ],
+      [
+        "id" => 4,
+        "nombre" => "Ana",
+        "apellido" => "Fernández",
+        "correo" => "ana.fernandez@moodle.com"
+      ],
+      [
+        "id" => 5,
+        "nombre" => "Luis",
+        "apellido" => "Martínez",
+        "correo" => "luis.martinez@moodle.com"
+      ]
+    ];
 
-    return response()->json($profesores);
+    return response()->json($professorsJson);
   }
 
   /**

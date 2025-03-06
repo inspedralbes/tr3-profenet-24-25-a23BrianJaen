@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/src/services/utils";
-import { LayoutDashboard, BookOpen, Calendar, Settings } from "lucide-react";
+import { LayoutDashboard, BookOpen, Calendar, Settings, User } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from 'next/navigation'
 
@@ -11,6 +11,7 @@ export default function Sidebar() {
 
   const navigation = [
     { name: "Inici", href: "/", icon: LayoutDashboard },
+    { name: "Porfessors", href: "/teachers", icon: User },
     { name: "Els meus cursos", href: "/courses", icon: BookOpen },
     { name: "Horari", href: "/schedule", icon: Calendar },
     { name: "Configuració", href: "/settings", icon: Settings },
@@ -47,7 +48,7 @@ export default function Sidebar() {
           })
         }
         <div className="flex fixed bottom-0 px-2 mb-1.5 py-4">
-          <p className="place-self-end mr-3">Name Firstname</p>
+          <p className="place-self-end mr-3">Bernat Garcia</p>
           <Image
             className="w-16 h-16 cursor-pointer"
             src="/images/profe.png"
