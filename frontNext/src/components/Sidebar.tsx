@@ -5,6 +5,7 @@ import { cn } from "@/src/services/utils";
 import { LayoutDashboard, BookOpen, Calendar, Settings, User, Menu } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from 'next/navigation'
+import Link from "next/link";
 
 export default function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,7 +31,9 @@ export default function Sidebar() {
     <div className="flex h-full">
       {/* Sidebar for large devices */}
       <div className="hidden md:flex flex-col w-56 bg-card bg-background">
-        <h3 className="text-2xl font-bold bg-background p-4">ProfeNet</h3>
+        <Link href="/" className="text-2xl font-bold bg-background p-4">
+          <h3>ProfeNet</h3>
+        </Link>
         <aside className="flex-1 space-y-1 px-2 py-4 relative">
           {navigation &&
             navigation.map((item, id) => {
