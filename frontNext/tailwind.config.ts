@@ -19,7 +19,6 @@ const config: Config = {
       },
       colors: {
         background: 'hsl(var(--background))',
-        'background-dark': '#1a202c', // Fondo oscuro
         foreground: 'hsl(var(--foreground))',
         card: {
           DEFAULT: 'hsl(var(--card))',
