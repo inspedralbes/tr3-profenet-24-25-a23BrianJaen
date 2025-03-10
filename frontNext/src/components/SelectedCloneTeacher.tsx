@@ -19,8 +19,8 @@ export default function SelectedCloneTeacher({ teacher, selectedTeacher, handleT
       key={teacher.id}
       onClick={() => handleTeacherClick(teacher.id)}
       className={`flex flex-row items-center rounded-lg hover:scale-110 hover:cursor-pointer 
-      hover:border hover:border-primary transition-all duration-300 ease-in-out 
-      ${selectedTeacher === teacher.id ? 'scale-105 border border-primary' : ''} 
+      hover:border hover:border-primary transition-all duration-300 ease-in-out
+      ${selectedTeacher === teacher.id ? 'scale-105 border border-primary m-2' : ''} 
       ${selectedTeacher === teacher.id ? (theme === "dark" ? "bg-blue-950" : "bg-blue-100") : ""}`}
     >
       <Image

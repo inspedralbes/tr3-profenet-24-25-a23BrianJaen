@@ -8,8 +8,6 @@ interface MediaCardProps {
 
 export default function MediaCard({ teacher }: MediaCardProps) {
 
-  console.log(teacher);
-
   return (
     <div className="max-w-xs rounded-lg border border-gray-200 overflow-hidden shadow-lg mb-4">
       <div className="group">

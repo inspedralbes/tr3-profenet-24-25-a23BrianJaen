@@ -1,10 +1,11 @@
-import { getTeachers } from "@/src/services/communicationManager";
+import { getTeachers, getClasses } from "@/src/services/communicationManager";
 import ClientTeachers from "../../src/components/ClientTeachers";
 
 export default async function Teachers() {
-  const data = await getTeachers();
+  const dataTeachers = await getTeachers();
+  const dataClasses = await getClasses();
 
   return (
-    <ClientTeachers teachers={data} />
+    <ClientTeachers teachers={dataTeachers} classes={dataClasses} />
   );
 }
