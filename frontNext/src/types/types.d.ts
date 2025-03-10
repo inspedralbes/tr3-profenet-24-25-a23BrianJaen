@@ -1,11 +1,23 @@
 export interface Professor {
-  id: number,
+  id: string,
   name: string,
-  firstname: string,
+  firstName: string,
   mail: string
 }
 
 export interface Classes {
-  id: number,
+  id: string,
   name: string
+}
+
+export interface TeacherInfo {
+  id: string,
+  name: string,
+  firstName: string
+}
+
+export interface ClonePayload {
+  originTeacher: TeacherInfo | null;
+  destinationTeacher: TeacherInfo | null;
+  selectedClasses: Classes[];
 }

@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useTheme } from "next-themes";
 import { X } from "lucide-react";
 
-import { Professor, Classes } from "../types/types"
+import { Professor, Classes, ClonePayload, TeacherInfo } from "../types/types"
 
 import SelectedCloneTeacher from "./SelectedCloneTeacher";
 import SelectedCloneClasses from "./SelectedCloneClasses";
+import ConfirmClone from "./ConfirmClone";
+import ModalTitle from "./ModalTitle";
 
 interface ModalProps {
   isOpen: boolean;
@@ -16,26 +18,69 @@ interface ModalProps {
 }
 
 export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, classes }: ModalProps) {
-  const [selectedTeacher, setSelectedTeacher] = useState<number | null>(null);
-  const [selectedTeacherDestination, setSelectedTeacherDestination] = useState<number | null>(null);
-  const [selectedClasses, setSelectedClasses] = useState<number[]>([]);
+  const [selectedTeacher, setSelectedTeacher] = useState<TeacherInfo | null>(null);
+  const [selectedTeacherDestination, setSelectedTeacherDestination] = useState<TeacherInfo | null>(null);
+  const [selectedClasses, setSelectedClasses] = useState<Classes[]>(classes);
   const [step, setStep] = useState(1);
 
   const { theme } = useTheme();
 
+  // Estate to store the payload
+  const [payload, setPayload] = useState<ClonePayload>({
+    originTeacher: null,
+    destinationTeacher: null,
+    selectedClasses: selectedClasses,
+  });
+
+  // useEffect(() => {
+  //   setPayload({
+  //     originTeacher: selectedTeacher,
+  //     destinationTeacher: selectedTeacherDestination,
+  //     selectedClasses: [],
+  //   });
+  // }, [selectedTeacher, selectedTeacherDestination, selectedClasses]);
+
   if (!isOpen) return null;
 
-  const handleTeacherClick = (id: number) => {
-    setSelectedTeacher(prev => prev === id ? null : id);
+  const handleTeacherClick = (id: string, name: string, firstName: string) => {
+    setSelectedTeacher(prev => (prev?.id === id ? null : { id, name, firstName }));
+
+    setPayload(prev => ({
+      ...prev,
+      originTeacher: prev.originTeacher?.id === id ? null : { id, name, firstName },
+    }));
   };
 
-  const handleTeacherDestinationClick = (id: number) => {
-    setSelectedTeacherDestination(prev => prev === id ? null : id);
+  const handleTeacherDestinationClick = (id: string, name: string, firstName: string) => {
+    setSelectedTeacherDestination(prev => (prev?.id === id ? null : { id, name, firstName }));
+
+    setPayload(prev => ({
+      ...prev,
+      destinationTeacher: prev.destinationTeacher?.id === id ? null : { id, name, firstName },
+    }));
   };
 
-  const handleClassesClick = (id: number) => {
-    setSelectedClasses(prev => prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]);
+  const handleClassesClick = (id: string, name: string) => {
+    setSelectedClasses((prev) => {
+      const isAlreadySelected = prev.some((item) => item.id === id); // Verificamos si ya está seleccionado
+
+      if (isAlreadySelected) {
+        // Si ya está seleccionado, eliminamos el objeto de `selectedClasses`
+        return prev.filter((item) => item.id !== id);
+      } else {
+        // Si no está seleccionado, añadimos un nuevo objeto `{ id, name }`
+        return [...prev, { id, name }];
+      }
+    });
+    // Actualizar el payload también para mantenerlo sincronizado
+    setPayload((prev) => ({
+      ...prev,
+      selectedClasses: prev.selectedClasses.some((item) => item.id === id)
+        ? prev.selectedClasses.filter((item) => item.id !== id)
+        : [...prev.selectedClasses, { id, name }],
+    }));
   };
+
 
   const handleCloseModal = () => {
     setSelectedTeacher(null);
@@ -57,9 +102,8 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
     if (!selectedTeacher || !selectedTeacherDestination || selectedClasses.length === 0) return;
 
     const payload = {
-      originTeacherId: selectedTeacher,
-      destinationTeacherId: selectedTeacherDestination,
-      selectedClasses
+      destinationTeacherId: selectedTeacherDestination.id,
+      selectedClasses: selectedClasses,
     };
     console.log(payload);
   };
@@ -80,15 +124,13 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
         {/* Steps */}
         {step === 1 && (
           <div>
-            <h2 className="text-primary text-center text-xl font-bold mb-1.5">
-              Selecciona un docent <strong>origen</strong> per clonar
-            </h2>
+            <ModalTitle normalText="Selecciona un docent" highlightedText="origen" additionalText="per clonar" />
             {teachers.map((teach) => (
               <SelectedCloneTeacher
                 key={teach.id}
                 teacher={teach}
                 selectedTeacher={selectedTeacher}
-                handleTeacherClick={handleTeacherClick}
+                handleTeacherClick={() => handleTeacherClick(teach.id, teach.name, teach.firstName)}
               />
             ))}
           </div>
@@ -96,15 +138,13 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
 
         {step === 2 && (
           <div>
-            <h2 className="text-primary text-center text-xl font-bold mb-1.5">
-              Selecciona les assigantures per clonar
-            </h2>
+            <ModalTitle normalText="Selecciona les assignatures per clonar" />
             {classes.map((classe) => (
               <SelectedCloneClasses
                 key={classe.id}
                 classes={classe}
                 selectedClasses={selectedClasses}
-                handleClassesClick={handleClassesClick}
+                handleClassesClick={() => handleClassesClick(classe.id, classe.name)}
               />
             ))}
           </div>
@@ -112,23 +152,28 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
 
         {step === 3 && (
           <div>
-            <h2 className="text-primary text-center text-xl font-bold mb-1.5">
-              Selecciona un docent <strong>destí</strong> per clonar
-            </h2>
+            <ModalTitle normalText="Selecciona un docent" highlightedText="destí" additionalText="per clonar" />
             {teachers.map((teach) => (
               <SelectedCloneTeacher
                 key={teach.id}
                 teacher={teach}
                 selectedTeacher={selectedTeacherDestination}
-                handleTeacherClick={handleTeacherDestinationClick}
+                handleTeacherClick={() => handleTeacherDestinationClick(teach.id, teach.name, teach.firstName)}
               />
             ))}
           </div>
         )}
 
+        {step === 4 && (
+          <div>
+            <ModalTitle normalText="Selecció total de les dades del docent" />
+            <ConfirmClone payload={payload} />
+          </div>
+        )}
+
         {/* Footer - Navigation Buttons */}
         <div className="mt-6 flex">
-          {/* Botón "Enrera" (se oculta en el primer paso) */}
+          {/* Button previous */}
           {step > 1 && (
             <button
               className="cursor-pointer p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
@@ -138,15 +183,16 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
             </button>
           )}
 
-          {/* Botón "Siguiente" o "Clonar Clases" en el último paso */}
+          {/* Button next or "Clone Classes" in the last step*/}
           <div className="ml-auto">
-            {step < 3 ? (
+            {step < 4 ? (
               <button
                 className="cursor-pointer p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 justify-end"
                 onClick={handleNextStep}
                 disabled={
                   (step === 1 && !selectedTeacher) ||
-                  (step === 2 && selectedClasses.length === 0)
+                  (step === 2 && selectedClasses.length === 0) ||
+                  (step === 3 && !selectedTeacherDestination)
                 }
               >
                 Següent

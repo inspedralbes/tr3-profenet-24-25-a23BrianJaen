@@ -17,31 +17,31 @@ class ProfesController extends Controller
       [
         "id" => 1,
         "name" => "Juan",
-        "firstname" => "Pérez",
+        "firstName" => "Pérez",
         "mail" => "juan.perez@moodle.com"
       ],
       [
         "id" => 2,
         "name" => "María",
-        "firstname" => "Gómez",
+        "firstName" => "Gómez",
         "mail" => "maria.gomez@moodle.com"
       ],
       [
         "id" => 3,
         "name" => "Carlos",
-        "firstname" => "Rodríguez",
+        "firstName" => "Rodríguez",
         "mail" => "carlos.rodriguez@moodle.com"
       ],
       [
         "id" => 4,
         "name" => "Ana",
-        "firstname" => "Fernández",
+        "firstName" => "Fernández",
         "mail" => "ana.fernandez@moodle.com"
       ],
       [
         "id" => 5,
         "name" => "Luis",
-        "firstname" => "Martínez",
+        "firstName" => "Martínez",
         "mail" => "luis.martinez@moodle.com"
       ]
     ];

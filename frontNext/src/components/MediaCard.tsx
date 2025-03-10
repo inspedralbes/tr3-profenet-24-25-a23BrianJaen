@@ -20,7 +20,7 @@ export default function MediaCard({ teacher }: MediaCardProps) {
         />
 
         <div className="p-4">
-          <h5 className="text-xl font-semibold text-primary">{teacher.name} {teacher.firstname}</h5>
+          <h5 className="text-xl font-semibold text-primary">{teacher.name} {teacher.firstName}</h5>
           <p className="text-primary text-sm mt-2">
             {teacher.mail}
           </p>
