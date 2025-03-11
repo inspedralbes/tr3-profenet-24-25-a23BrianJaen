@@ -1,4 +1,4 @@
-import TitlePage from "@/src/components/TitlePage";
+import TitlePage from "@/src/components/common/Layout/TitlePage";
 
 export default function Courses() {
   return (

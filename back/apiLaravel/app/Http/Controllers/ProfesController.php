@@ -10,43 +10,58 @@ class ProfesController extends Controller
   /**
    * Display a listing of the resource.
    */
+
+
+  private $teachersJson = [
+    [
+      "id" => 1,
+      "name" => "Juan",
+      "firstName" => "Pérez",
+      "mail" => "juan.perez@moodle.com"
+    ],
+    [
+      "id" => 2,
+      "name" => "María",
+      "firstName" => "Gómez",
+      "mail" => "maria.gomez@moodle.com"
+    ],
+    [
+      "id" => 3,
+      "name" => "Carlos",
+      "firstName" => "Rodríguez",
+      "mail" => "carlos.rodriguez@moodle.com"
+    ],
+    [
+      "id" => 4,
+      "name" => "Ana",
+      "firstName" => "Fernández",
+      "mail" => "ana.fernandez@moodle.com"
+    ],
+    [
+      "id" => 5,
+      "name" => "Luis",
+      "firstName" => "Martínez",
+      "mail" => "luis.martinez@moodle.com"
+    ]
+  ];
   public function getTeachers()
   {
 
-    $teachersJson = [
-      [
-        "id" => 1,
-        "name" => "Juan",
-        "firstName" => "Pérez",
-        "mail" => "juan.perez@moodle.com"
-      ],
-      [
-        "id" => 2,
-        "name" => "María",
-        "firstName" => "Gómez",
-        "mail" => "maria.gomez@moodle.com"
-      ],
-      [
-        "id" => 3,
-        "name" => "Carlos",
-        "firstName" => "Rodríguez",
-        "mail" => "carlos.rodriguez@moodle.com"
-      ],
-      [
-        "id" => 4,
-        "name" => "Ana",
-        "firstName" => "Fernández",
-        "mail" => "ana.fernandez@moodle.com"
-      ],
-      [
-        "id" => 5,
-        "name" => "Luis",
-        "firstName" => "Martínez",
-        "mail" => "luis.martinez@moodle.com"
-      ]
-    ];
+    return response()->json($this->teachersJson);
+  }
 
-    return response()->json($teachersJson);
+  public function getTeachersById(string $id)
+  {
+    // Search the teacher by ID in the array
+    $teacher = collect($this->teachersJson)->firstWhere('id', $id);
+
+    // If not found the teacher, return error
+    if (!$teacher) {
+      return response()->json(['error' => 'Profesor no encontrado'], 404);
+    }
+
+    // Return teacher like JSON
+    return response()->json($teacher, 200);
   }
 
   /**

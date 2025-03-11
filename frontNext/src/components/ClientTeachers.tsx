@@ -1,10 +1,10 @@
 "use client";
 
-import MediaCard from "@/src/components/MediaCard";
+import MediaCard from "@/src/components/common/Modals/Cards/MediaCard";
 import { type Teacher, type Classes } from "../types/types";
 import { useState } from "react";
-import ModalCloneTeacher from "./ModalCloneTeacher";
-import TitlePage from "./TitlePage";
+import ModalCloneTeacher from "./common/Modals/ModalCloneTeacher";
+import TitlePage from "./common/Layout/TitlePage";
 
 // Define props for the ClientTeachers component
 interface ClientTeachersProps {

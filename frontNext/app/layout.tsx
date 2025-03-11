@@ -1,8 +1,8 @@
 import "./normalize.css";
 import "./globals.css";
 
-import Sidebar from '@/src/components/Sidebar';
-import Header from "@/src/components/Header";
+import Sidebar from '@/src/components/common/Layout/Sidebar';
+import Header from "@/src/components/common/Layout/Header";
 import { ThemeProvider } from 'next-themes';
 
 export default function RootLayout({

@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useTheme } from "next-themes";
 import { X } from "lucide-react";
 
-import { Teacher, Classes, ClonePayload, TeacherInfo } from "../types/types"
+import { Teacher, Classes, ClonePayload, TeacherInfo } from "../../../types/types"
 
-import SelectedCloneTeacher from "./SelectedCloneTeacher";
-import SelectedCloneClasses from "./SelectedCloneClasses";
-import ConfirmClone from "./ConfirmClone";
+import SelectedCloneTeacher from "../Clone/SelectedCloneTeacher";
+import SelectedCloneClasses from "../Clone/SelectedCloneClasses";
+import ConfirmClone from "../Clone/ConfirmClone";
 import ModalTitle from "./ModalTitle";
 
 interface ModalProps {

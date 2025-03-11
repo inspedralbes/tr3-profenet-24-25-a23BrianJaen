@@ -7,6 +7,12 @@ export const getTeachers = async (): Promise<Teacher[]> => {
     .then(res => res.json() as Promise<Teacher[]>);
 };
 
+export const getTeachersById = async (id: string): Promise<Teacher[]> => {
+  console.log(id);
+  return fetch(`${API_URL}/getTeacherById/${id}`)
+    .then(res => res.json() as Promise<Teacher[]>);
+};
+
 export const getClasses = async (): Promise<Classes[]> => {
   return fetch(`${API_URL}/getClasses`)
     .then(res => res.json() as Promise<Classes[]>);

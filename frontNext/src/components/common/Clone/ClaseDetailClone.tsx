@@ -1,5 +1,5 @@
 
-import type { ClaseDetailClone } from "../types/types"
+import type { ClaseDetailClone } from "../../../types/types"
 
 export default function ClaseDetailClone({ payload, text }: ClaseDetailClone) {
   return (

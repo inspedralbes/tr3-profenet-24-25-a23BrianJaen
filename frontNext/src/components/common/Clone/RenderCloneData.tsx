@@ -1,6 +1,6 @@
 "use client"
 
-import { ClonePayload } from "../types/types"
+import { ClonePayload } from "../../../types/types"
 
 import ClaseDetailClone from "./ClaseDetailClone"
 import TeacherDetailClone from "./TeacherDetailClone"

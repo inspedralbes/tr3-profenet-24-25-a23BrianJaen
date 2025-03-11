@@ -1,5 +1,11 @@
+"use client"
+
 import Image from 'next/image';
-import { type Teacher } from "../../src/types/types";
+import { type Teacher } from "../../../../types/types";
+
+import { usePathname } from 'next/navigation'
+import { useRouter } from "next/navigation";
+
 
 // Define props for the ClientTeachers component
 interface MediaCardProps {
@@ -7,6 +13,16 @@ interface MediaCardProps {
 }
 
 export default function MediaCard({ teacher }: MediaCardProps) {
+
+  const pathname = usePathname()
+
+  const router = useRouter()
+
+  const handleNavigationProfile = (id: string) => {
+    console.log(id);
+    router.push(`${pathname}/${id}`);
+  }
+
 
   return (
     <div className="max-w-xs rounded-lg border border-gray-200 overflow-hidden shadow-lg mb-4">
@@ -27,7 +43,7 @@ export default function MediaCard({ teacher }: MediaCardProps) {
         </div>
       </div>
       <div className="p-4 border-t border-gray-200 flex justify-between">
-        <button className="cursor-pointer text-sm font-semibold text-blue-500 hover:text-blue-700 transition-colors">
+        <button className="cursor-pointer text-sm font-semibold text-blue-500 hover:text-blue-700 transition-colors" onClick={() => handleNavigationProfile(teacher.id)}>
           Veure perfil
         </button>
       </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { ClonePayload } from "../types/types"
+import { ClonePayload } from "../../../types/types"
 import RenderCloneData from "./RenderCloneData";
 
 interface ConfirmCloneProps {

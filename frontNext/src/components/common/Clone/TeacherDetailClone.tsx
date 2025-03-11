@@ -1,6 +1,6 @@
 "use client"
 
-import { TeacherDetailCloneProps } from "../types/types";
+import { TeacherDetailCloneProps } from "../../../types/types";
 
 // interface TeacherDetailCloneProps {
 //   payload: ClonePayload | null;

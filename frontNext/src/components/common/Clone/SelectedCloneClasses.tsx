@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes";
 
-import { Classes } from "../types/types"
+import { Classes } from "../../../types/types"
 import { useEffect } from "react";
 
 interface SelectedCloneClassesProps {

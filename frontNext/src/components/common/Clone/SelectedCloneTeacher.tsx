@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useTheme } from "next-themes";
 
-import { TeacherInfo } from "../types/types"
+import { TeacherInfo } from "../../../types/types"
 
 interface SelectedCloneTeacherProps {
   teacher: TeacherInfo
