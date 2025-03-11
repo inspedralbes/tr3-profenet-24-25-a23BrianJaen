@@ -1,13 +1,14 @@
 "use client";
 
 import MediaCard from "@/src/components/MediaCard";
-import { type Professor, type Classes } from "../types/types";
+import { type Teacher, type Classes } from "../types/types";
 import { useState } from "react";
 import ModalCloneTeacher from "./ModalCloneTeacher";
+import TitlePage from "./TitlePage";
 
 // Define props for the ClientTeachers component
 interface ClientTeachersProps {
-  teachers: Professor[];
+  teachers: Teacher[];
   classes: Classes[]
 }
 
@@ -17,9 +18,7 @@ export default function ClientTeachers({ teachers = [], classes = [] }: ClientTe
   return (
     <div className="container">
       <div className="grid md:grid-cols-2 p-2 items-center md:mb-6 sm:mb-2">
-        <div className="inline-block w-fit border border-gray-300 p-2 rounded-lg">
-          <span className="text-4xl font-bold">Professors</span>
-        </div>
+        <TitlePage text="Professors" />
         <div className="hidden md:flex justify-end">
           <button className="border border-gray-300 px-4 py-2 rounded-lg cursor-pointer"
             onClick={() => setIsOpenModal(true)}>
@@ -35,7 +34,7 @@ export default function ClientTeachers({ teachers = [], classes = [] }: ClientTe
       </div>
       {/* Modal */}
       <ModalCloneTeacher isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} teachers={teachers} classes={classes} />
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 ">
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
         {teachers && teachers?.map((teach) => (
           <MediaCard key={teach.id} teacher={teach} />
         ))}

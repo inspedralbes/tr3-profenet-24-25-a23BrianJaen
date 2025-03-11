@@ -9,8 +9,6 @@ interface ConfirmCloneProps {
 
 export default function ConfirmClone({ payload }: ConfirmCloneProps) {
 
-  console.log(payload);
-
   return (
     <div>
       <RenderCloneData payload={payload} />

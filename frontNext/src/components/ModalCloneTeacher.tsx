@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTheme } from "next-themes";
 import { X } from "lucide-react";
 
-import { Professor, Classes, ClonePayload, TeacherInfo } from "../types/types"
+import { Teacher, Classes, ClonePayload, TeacherInfo } from "../types/types"
 
 import SelectedCloneTeacher from "./SelectedCloneTeacher";
 import SelectedCloneClasses from "./SelectedCloneClasses";
@@ -13,7 +13,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
-  teachers: Professor[];
+  teachers: Teacher[];
   classes: Classes[];
 }
 
@@ -31,14 +31,6 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
     destinationTeacher: null,
     selectedClasses: selectedClasses,
   });
-
-  // useEffect(() => {
-  //   setPayload({
-  //     originTeacher: selectedTeacher,
-  //     destinationTeacher: selectedTeacherDestination,
-  //     selectedClasses: [],
-  //   });
-  // }, [selectedTeacher, selectedTeacherDestination, selectedClasses]);
 
   if (!isOpen) return null;
 
@@ -62,17 +54,15 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
 
   const handleClassesClick = (id: string, name: string) => {
     setSelectedClasses((prev) => {
-      const isAlreadySelected = prev.some((item) => item.id === id); // Verificamos si ya está seleccionado
+      const isAlreadySelected = prev.some((item) => item.id === id);
 
       if (isAlreadySelected) {
-        // Si ya está seleccionado, eliminamos el objeto de `selectedClasses`
         return prev.filter((item) => item.id !== id);
       } else {
-        // Si no está seleccionado, añadimos un nuevo objeto `{ id, name }`
         return [...prev, { id, name }];
       }
     });
-    // Actualizar el payload también para mantenerlo sincronizado
+
     setPayload((prev) => ({
       ...prev,
       selectedClasses: prev.selectedClasses.some((item) => item.id === id)
@@ -81,11 +71,10 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
     }));
   };
 
-
   const handleCloseModal = () => {
     setSelectedTeacher(null);
     setSelectedTeacherDestination(null);
-    setSelectedClasses([]);
+    setSelectedClasses(classes);
     setStep(1);
     onClose();
   };
@@ -113,11 +102,11 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
       <div className={`p-6 rounded-lg shadow-lg max-w-xl min-h-96 w-full ${theme === "dark" ? "bg-[#0f1214]" : "bg-white"}`}>
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-primary border border-primary p-2 rounded-lg">
+          <h2 className="text-xl font-semibold text-primary p-2">
             {title || "Clonar professor"}
           </h2>
-          <button className="cursor-pointer bg-red-500 text-white px-4 py-2 rounded-lg" onClick={handleCloseModal}>
-            <X className="h-5 w-5" />
+          <button className="px-4 py-2" >
+            <X className="h-7 w-7 cursor-pointer text-primary" onClick={handleCloseModal} />
           </button>
         </div>
 

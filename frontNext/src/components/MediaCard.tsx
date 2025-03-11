@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import { type Professor } from "../../src/types/types";
+import { type Teacher } from "../../src/types/types";
 
 // Define props for the ClientTeachers component
 interface MediaCardProps {
-  teacher: Professor;
+  teacher: Teacher;
 }
 
 export default function MediaCard({ teacher }: MediaCardProps) {
