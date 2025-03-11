@@ -18,7 +18,7 @@ interface ModalProps {
 }
 
 export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, classes }: ModalProps) {
-  const [selectedTeacher, setSelectedTeacher] = useState<TeacherInfo | null>(null);
+  const [selectedTeacherOrigin, setSelectedTeacherOrigin] = useState<TeacherInfo | null>(null);
   const [selectedTeacherDestination, setSelectedTeacherDestination] = useState<TeacherInfo | null>(null);
   const [selectedClasses, setSelectedClasses] = useState<Classes[]>(classes);
   const [step, setStep] = useState(1);
@@ -35,7 +35,7 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
   if (!isOpen) return null;
 
   const handleTeacherClick = (id: string, name: string, firstName: string) => {
-    setSelectedTeacher(prev => (prev?.id === id ? null : { id, name, firstName }));
+    setSelectedTeacherOrigin(prev => (prev?.id === id ? null : { id, name, firstName }));
 
     setPayload(prev => ({
       ...prev,
@@ -72,7 +72,7 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
   };
 
   const handleCloseModal = () => {
-    setSelectedTeacher(null);
+    setSelectedTeacherOrigin(null);
     setSelectedTeacherDestination(null);
     setSelectedClasses(classes);
     setStep(1);
@@ -88,13 +88,16 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
   };
 
   const handleSendRequestToBack = () => {
-    if (!selectedTeacher || !selectedTeacherDestination || selectedClasses.length === 0) return;
+    if (!selectedTeacherOrigin || !selectedTeacherDestination || selectedClasses.length === 0) return;
 
     const payload = {
       destinationTeacherId: selectedTeacherDestination.id,
       selectedClasses: selectedClasses,
     };
+
     console.log(payload);
+
+    handleCloseModal();
   };
 
   return (
@@ -118,7 +121,7 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
               <SelectedCloneTeacher
                 key={teach.id}
                 teacher={teach}
-                selectedTeacher={selectedTeacher}
+                selectedTeacher={selectedTeacherOrigin}
                 handleTeacherClick={() => handleTeacherClick(teach.id, teach.name, teach.firstName)}
               />
             ))}
@@ -179,7 +182,7 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
                 className="cursor-pointer p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 justify-end"
                 onClick={handleNextStep}
                 disabled={
-                  (step === 1 && !selectedTeacher) ||
+                  (step === 1 && !selectedTeacherOrigin) ||
                   (step === 2 && selectedClasses.length === 0) ||
                   (step === 3 && !selectedTeacherDestination)
                 }
