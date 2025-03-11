@@ -1,7 +1,8 @@
 import { getTeachersById } from "@/src/services/communicationManager";
+import ClientTeacherProfile from "../../../src/components/ClientTeacherProfile";
 
 interface Props {
-  params: { id: string }; // Definimos explícitamente el tipo de `params` Define 
+  params: { id: string };
 }
 
 export default async function TeacherProfile({ params }: Props) {
@@ -11,10 +12,6 @@ export default async function TeacherProfile({ params }: Props) {
   const data = await getTeachersById(id);
 
   return (
-    <div>
-      <h1>Perfil del Profesor</h1>
-      <p>ID del Profesor: {id}</p>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
+    <ClientTeacherProfile dataTeacher={data} />
   );
 }
