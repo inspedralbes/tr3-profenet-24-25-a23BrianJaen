@@ -21,6 +21,7 @@ interface TeacherDetailCloneProps {
 
 interface TeacherProfileInfoProps {
   dataTeacher: Teacher
+  classes: Classes[]
 }
 
 // Classes interfaces

@@ -19,10 +19,8 @@ export default function MediaCard({ teacher }: MediaCardProps) {
   const router = useRouter()
 
   const handleNavigationProfile = (id: string) => {
-    console.log(id);
     router.push(`${pathname}/${id}`);
   }
-
 
   return (
     <div className="max-w-xs rounded-lg border border-gray-200 overflow-hidden shadow-lg mb-4">

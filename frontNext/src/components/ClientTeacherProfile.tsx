@@ -1,58 +1,133 @@
 "use client"
 
-import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
-
 import { TeacherProfileInfoProps } from "../types/types";
+import { Mail as MailIcon, Badge as BadgeIcon } from '@mui/icons-material';
+import { Avatar, Box, Card, CardContent, Typography, Tabs, Tab, Divider } from '@mui/material';
 
-import { Mail, IdCard } from 'lucide-react';
+export default function ClientTeacherProfileProp({ dataTeacher, classes }: TeacherProfileInfoProps) {
+  const [mounted, setMounted] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
+  const { theme, systemTheme } = useTheme();
 
-export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfileInfoProps) {
-  const { theme } = useTheme();
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Making sure we have the right topic 
+  const currentTheme = theme === 'system' ? systemTheme : theme;
+  const isDark = currentTheme === 'dark';
+
+  // Avoiding incorrect content flash
+  if (!mounted) {
+    return null;
+  }
 
   return (
-    <div>
-      <div className={`max-w-2xl mx-auto p-6 bg-background rounded-lg shadow-lg mt-8
-        ${theme === 'dark' ? 'border border-primary' : 'bg-background'}`}>
-        <div className="flex items-center space-x-6 mb-8">
-          <div className="relative w-32 h-32 rounded-full overflow-hidden">
-            <Image
-              src={dataTeacher.imageUrl || '/images/docent.png'}
-              alt={`${dataTeacher.name} ${dataTeacher.firstName}`}
-              width={100}
-              height={100}
-              className="object-cover"
-            />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-primary">
-              {dataTeacher.name} {dataTeacher.firstName}
-            </h1>
-            <p className="text-lg text-primary mt-2">
-              Profesor/a
-            </p>
-          </div>
-        </div>
+    <Card sx={{
+      maxWidth: 'xl',
+      mx: 'auto',
+      mt: 4,
+      bgcolor: isDark ? '#1e1e1e' : '#ffffff',
+      color: isDark ? '#ffffff' : '#000000',
+      border: isDark ? '1px solid #90caf9' : '1px solid #1976d2'
+    }}>
+      <Box sx={{ p: 3, display: 'flex', alignItems: 'center' }}>
+        <Avatar
+          src={dataTeacher.imageUrl || '/images/docent.png'}
+          alt={`${dataTeacher.name} ${dataTeacher.firstName}`}
+          sx={{ width: 72, height: 72, mr: 2 }}
+        >
+          {dataTeacher.name[0]}{dataTeacher.firstName[0]}
+        </Avatar>
+        <Box>
+          <Typography variant="h5" sx={{ color: isDark ? '#ffffff' : '#000000' }}>
+            {dataTeacher.name} {dataTeacher.firstName}
+          </Typography>
+          <Typography variant="body2" sx={{ color: isDark ? '#b3b3b3' : '#666666' }}>
+            Professor/a del departament {dataTeacher?.imageUrl || "matemátiques"}
+          </Typography>
 
-        <div className="space-y-4">
-          <div className="border-t pt-4">
-            <h2 className="text-xl font-semibold text-primary mb-3">Información de Contacto</h2>
-            <div className="grid grid-cols-1 gap-4">
-              <div className="flex items-center space-x-2">
-                <Mail className="w-4 h-4 text-primary" />
-                <a href={`mailto:${dataTeacher.mail}`} className="text-primary relative inline-block group transition-all duration-300 ease-in-out hover:scale-105">
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300 ease-out"></span>
-                  {dataTeacher.mail}
-                </a>
-              </div>
-              <div className="flex items-center space-x-2">
-                <IdCard className="w-4 h-4 text-primary" />
-                <span className="text-primary">ID: {dataTeacher.id}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+
+      <Divider />
+
+      <Tabs
+        value={tabValue}
+        onChange={handleTabChange}
+        sx={{
+          '& .MuiTab-root': {
+            color: isDark ? '#b3b3b3' : '#666666',
+            '&.Mui-selected': {
+              color: isDark ? '#90caf9' : '#1976d2'
+            }
+          },
+          '& .MuiTabs-indicator': {
+            backgroundColor: isDark ? '#90caf9' : '#1976d2'
+          }
+        }}>
+        <Tab label="Informació" />
+        <Tab label="Assignatures" />
+      </Tabs>
+
+      <CardContent sx={{ minHeight: '200px' }}>
+        {tabValue === 0 && (
+          <Box>
+            <Typography variant="h6" gutterBottom sx={{ color: isDark ? '#ffffff' : '#000000' }}>
+              Informació de Contacte
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <MailIcon sx={{ mr: 1, color: isDark ? '#90caf9' : '#1976d2' }} />
+              <Typography
+                component="a"
+                href={`mailto:${dataTeacher.mail}`}
+                sx={{
+                  color: isDark ? '#90caf9' : '#1976d2',
+                  textDecoration: 'none',
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                {dataTeacher.mail}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <BadgeIcon sx={{ mr: 1, color: isDark ? '#90caf9' : '#1976d2' }} />
+              <Typography sx={{ color: isDark ? '#ffffff' : '#000000' }}>
+                ID: {dataTeacher.id}
+              </Typography>
+            </Box>
+          </Box>
+        )}
+        {tabValue === 1 && (
+          <Box sx={{ mt: 2 }}>
+            {classes?.map((classItem) => (
+              <Typography
+                key={classItem.id}
+                variant="body1"
+                sx={{
+                  color: isDark ? '#ffffff' : '#000000',
+                  mb: 1,
+                  p: 1,
+                  borderRadius: 1,
+                  '&:hover': {
+                    bgcolor: isDark ? 'rgba(144, 202, 249, 0.08)' : 'rgba(25, 118, 210, 0.08)'
+                  }
+                }}
+              >
+                {classItem.name}
+              </Typography>
+            ))}
+          </Box>
+        )}
+      </CardContent>
+    </Card>
   );
 }

@@ -13,7 +13,6 @@ export const getClasses = async (): Promise<Classes[]> => {
 }
 
 export const getTeachersById = async (id: string): Promise<Teacher> => {
-  console.log(id);
   return fetch(`${API_URL}/getTeacherById/${id}`)
     .then(res => res.json() as Promise<Teacher>);
 };

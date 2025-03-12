@@ -1,4 +1,4 @@
-import { getTeachersById } from "@/src/services/communicationManager";
+import { getTeachersById, getClasses } from "@/src/services/communicationManager";
 import ClientTeacherProfile from "../../../src/components/ClientTeacherProfile";
 
 interface Props {
@@ -9,9 +9,9 @@ export default async function TeacherProfile({ params }: Props) {
   //  Acces ID from the `params` object
   const { id } = params;
 
-  const data = await getTeachersById(id);
+  const [data, dataClasses] = await Promise.all([getTeachersById(id), getClasses()]);
 
   return (
-    <ClientTeacherProfile dataTeacher={data} />
+    <ClientTeacherProfile dataTeacher={data} classes={dataClasses} />
   );
 }
