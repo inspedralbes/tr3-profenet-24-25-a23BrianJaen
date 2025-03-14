@@ -11,4 +11,5 @@ Route::get('/user', function (Request $request) {
 
 
 Route::get('/getTeachers', [ProfesController::class, 'getTeachers']);
+Route::get('/getTeacherById/{id}', [ProfesController::class, 'getTeachersById']);
 Route::get('/getClasses', [ClassController::class, 'getClasses']);

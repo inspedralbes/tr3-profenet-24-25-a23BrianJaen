@@ -1,11 +1,14 @@
 "use client"
 
 import { useState } from "react";
-import { cn } from "@/src/services/utils";
-import { LayoutDashboard, BookOpen, Calendar, Settings, User, Menu } from "lucide-react";
 import Image from "next/image";
-import { usePathname } from 'next/navigation'
 import Link from "next/link";
+import { usePathname } from 'next/navigation'
+
+import { cn } from "@/src/services/utils";
+import { navigation } from "@/src/constants/navigation";
+
+import { Menu } from "lucide-react";
 
 export default function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,14 +18,6 @@ export default function Sidebar() {
   };
 
   const pathname = usePathname()
-
-  const navigation = [
-    { name: "Inici", href: "/", icon: LayoutDashboard },
-    { name: "Porfessors", href: "/teachers", icon: User },
-    { name: "Els meus cursos", href: "/courses", icon: BookOpen },
-    { name: "Horari", href: "/schedule", icon: Calendar },
-    { name: "Configuració", href: "/settings", icon: Settings },
-  ];
 
   const user = null;
 
@@ -89,10 +84,10 @@ export default function Sidebar() {
             {/* Sidebar */}
             <div
               className={`transition-all ease-in-out duration-500 
-        fixed top-0 left-0 w-48 h-screen p-4 z-50 
-        ${isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-[-100%] opacity-0"}
-        ${localStorage.getItem("theme") === "dark" ? "bg-card bg-[#101315] border-r-1 border-blue-300" : "bg-card bg-amber-50 border-r-2 border-e-blue-400"}
-        `}
+              fixed top-0 left-0 w-48 h-screen p-4 z-50 
+              ${isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-[-100%] opacity-0"}
+              ${localStorage.getItem("theme") === "dark" ? "bg-card bg-[#101315] border-r-1 border-blue-300" : "bg-card bg-amber-50 border-r-2 border-e-blue-400"}
+              `}
             >
               <h1 className="text-primary font-bold">Profenet</h1>
               {navigation &&

@@ -1,9 +1,9 @@
 import "./normalize.css";
 import "./globals.css";
 
-import Sidebar from '@/src/components/Sidebar';
-import Header from "@/src/components/Header";
-import { ThemeProvider } from 'next-themes';
+import Sidebar from '@/src/components/common/Layout/Sidebar';
+import Header from "@/src/components/common/Layout/Header";
+import { ThemeProvider } from '@/src/components/providers/ThemeProvider';
 
 export default function RootLayout({
   children,
@@ -11,13 +11,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ca">
-      <body className="min-h-screen w-full flex bg-background font-sans">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={true}
-        >
+    <html lang="ca" suppressHydrationWarning>
+      <body className="min-h-screen w-full flex bg-background font-sans" suppressHydrationWarning>
+        <ThemeProvider>
           <Sidebar />
           {/* Main Content */}
           <div className="flex-1 flex flex-col">
