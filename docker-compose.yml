@@ -53,7 +53,23 @@ services:
     working_dir: /var/www/
     depends_on:
       - db
+    environment:
+      - MOODLE_API_URL=http://moodle:8080
     command: bash -c "chmod -R 777 /var/www/storage /var/www/bootstrap/cache && composer install && php artisan serve --host=0.0.0.0"
+
+  # NODEJS
+  node:
+    build: ./back/apiNode
+    ports:
+      - 3010:3010
+    volumes:
+      - ./back/apiNode:/app
+      - /app/node_modules
+    working_dir: /app
+    restart: always
+    environment:
+      - MOODLE_API_URL=http://moodle:8080
+    command: bash -c "npm install && npm run dev"
 
   # NEXTJS
   next:
@@ -65,6 +81,7 @@ services:
       - ./front:/app
     depends_on:
       - laravel
+      - node
     environment:
       NUXT_APP_API_URL: http://laravel:8000
       CHOKIDAR_USEPOLLING: true
