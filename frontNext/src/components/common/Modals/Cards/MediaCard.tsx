@@ -1,15 +1,16 @@
 "use client"
 
-import Image from 'next/image';
-import { type Teacher } from "../../../../types/types";
+import { type TeacherMoodle } from "../../../../types/types";
 
 import { usePathname } from 'next/navigation'
 import { useRouter } from "next/navigation";
 
+import { Avatar } from '@mui/material'
+
 
 // Define props for the ClientTeachers component
 interface MediaCardProps {
-  teacher: Teacher;
+  teacher: TeacherMoodle;
 }
 
 export default function MediaCard({ teacher }: MediaCardProps) {
@@ -25,18 +26,19 @@ export default function MediaCard({ teacher }: MediaCardProps) {
   return (
     <div className="max-w-xs rounded-lg border border-gray-200 overflow-hidden shadow-lg mb-4">
       <div className="group">
-        <Image
-          className="w-16 h-16 rounded-full object-cover m-1.5"
-          src="/images/docent.png"
-          alt={teacher.name || "Usuari"}
-          width={100}
-          height={100}
-        />
+        <Avatar
+          src={teacher.profileimageurl || '/images/docent.png'}
+          alt={`${teacher.firstname} ${teacher.lastname}`}
+          sx={{ width: 80, height: 80 }}
+          className='w-16 h-16 rounded-full object-cover m-1.5'
+        >
+          {teacher.firstname[0]}{teacher.lastname[0]}
+        </Avatar>
 
         <div className="p-4">
-          <h5 className="text-xl font-semibold text-primary">{teacher.name} {teacher.firstName}</h5>
+          <h5 className="text-xl font-semibold text-primary">{teacher.firstname} {teacher.lastname}</h5>
           <p className="text-primary text-sm mt-2">
-            {teacher.mail}
+            {teacher.email}
           </p>
         </div>
       </div>

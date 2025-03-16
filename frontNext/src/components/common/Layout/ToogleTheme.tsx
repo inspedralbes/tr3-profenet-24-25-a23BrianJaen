@@ -18,10 +18,10 @@ export default function Sidebar() {
 
   return (
     <button
-      className="cursor-pointer fixed top-1.5 right-4 rounded-full w-8 h-8 sm:w-10 sm:h-10 border border-primary/20 flex items-center justify-center hover:bg-primary/10"
+      className="cursor-pointer rounded-full w-8 h-8 sm:w-10 sm:h-10 border border-primary/20 flex items-center justify-center hover:bg-primary/10"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
-      {theme === "light" ? <Sun className="h-5 w-5 text-background" /> : <Moon className="h-5 w-5 text-background" />}
+      {theme === "light" ? <Sun className="h-5 w-5 text-primary" /> : <Moon className="h-5 w-5 text-primary" />}
       <span className="sr-only">Toggle theme</span>
     </button>
   )

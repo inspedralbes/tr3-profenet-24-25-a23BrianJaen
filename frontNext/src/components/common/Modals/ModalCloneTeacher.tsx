@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTheme } from "next-themes";
 import { X } from "lucide-react";
 
-import { Teacher, Classes, ClonePayload, TeacherInfo } from "../../../types/types"
+import { TeacherMoodle, Classes, ClonePayload, TeacherInfo } from "../../../types/types"
 
 import SelectedCloneTeacher from "../Clone/SelectedCloneTeacher";
 import SelectedCloneClasses from "../Clone/SelectedCloneClasses";
@@ -13,7 +13,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
-  teachers: Teacher[];
+  teachers: TeacherMoodle[];
   classes: Classes[];
 }
 
@@ -34,21 +34,21 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
 
   if (!isOpen) return null;
 
-  const handleTeacherClick = (id: string, name: string, firstName: string) => {
-    setSelectedTeacherOrigin(prev => (prev?.id === id ? null : { id, name, firstName }));
+  const handleTeacherClick = (id: string, firstname: string, lastname: string) => {
+    setSelectedTeacherOrigin(prev => (prev?.id === id ? null : { id, firstname, lastname }));
 
     setPayload(prev => ({
       ...prev,
-      originTeacher: prev.originTeacher?.id === id ? null : { id, name, firstName },
+      originTeacher: prev.originTeacher?.id === id ? null : { id, firstname, lastname },
     }));
   };
 
-  const handleTeacherDestinationClick = (id: string, name: string, firstName: string) => {
-    setSelectedTeacherDestination(prev => (prev?.id === id ? null : { id, name, firstName }));
+  const handleTeacherDestinationClick = (id: string, firstname: string, lastname: string) => {
+    setSelectedTeacherDestination(prev => (prev?.id === id ? null : { id, firstname, lastname }));
 
     setPayload(prev => ({
       ...prev,
-      destinationTeacher: prev.destinationTeacher?.id === id ? null : { id, name, firstName },
+      destinationTeacher: prev.destinationTeacher?.id === id ? null : { id, firstname, lastname },
     }));
   };
 
@@ -122,7 +122,7 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
                 key={teach.id}
                 teacher={teach}
                 selectedTeacher={selectedTeacherOrigin}
-                handleTeacherClick={() => handleTeacherClick(teach.id, teach.name, teach.firstName)}
+                handleTeacherClick={() => handleTeacherClick(teach.id, teach.firstname, teach.lastname)}
               />
             ))}
           </div>
@@ -150,7 +150,7 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
                 key={teach.id}
                 teacher={teach}
                 selectedTeacher={selectedTeacherDestination}
-                handleTeacherClick={() => handleTeacherDestinationClick(teach.id, teach.name, teach.firstName)}
+                handleTeacherClick={() => handleTeacherDestinationClick(teach.id, teach.firstname, teach.lastname)}
               />
             ))}
           </div>

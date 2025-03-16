@@ -10,8 +10,8 @@ export interface Teacher {
 
 export interface TeacherInfo {
   id: string,
-  name: string,
-  firstName: string
+  firstname: string,
+  lastname: string
 }
 
 interface TeacherDetailCloneProps {
@@ -20,8 +20,24 @@ interface TeacherDetailCloneProps {
 }
 
 interface TeacherProfileInfoProps {
-  dataTeacher: Teacher
-  classes: Classes[]
+  dataTeacher: TeacherMoodle
+
+}
+
+interface Courses {
+  id: string,
+  name: string,
+  shotname: string,
+}
+
+interface TeacherMoodle {
+  id: string,
+  firstname: string,
+  lastname: string,
+  email: string,
+  profileimageurlsmall: string,
+  profileimageurl: string,
+  courses: Courses[]
 }
 
 // Classes interfaces

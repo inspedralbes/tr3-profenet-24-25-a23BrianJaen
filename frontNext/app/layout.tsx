@@ -24,7 +24,7 @@ export default function RootLayout({
             </main>
             <footer>
               <p className="text-center text-primary text-sm mb-3 border-t border-muted">
-                © 2025 ProfeNet. All rights reserved.
+                © 2025 ProfeNet. Tots els drets reservats.
               </p>
             </footer>
           </div>

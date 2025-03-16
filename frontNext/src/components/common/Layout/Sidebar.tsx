@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from 'next/navigation'
 
@@ -9,6 +8,7 @@ import { cn } from "@/src/services/utils";
 import { navigation } from "@/src/constants/navigation";
 
 import { Menu } from "lucide-react";
+import Avatar from "@mui/material/Avatar/Avatar";
 
 export default function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,8 +18,6 @@ export default function Sidebar() {
   };
 
   const pathname = usePathname()
-
-  const user = null;
 
   const currentPath = pathname
   return (
@@ -52,13 +50,14 @@ export default function Sidebar() {
             })}
           <div className="flex fixed bottom-0 px-2 mb-1.5 py-4">
             <p className="place-self-end mr-3">Bernat Garcia</p>
-            <Image
-              className="w-16 h-16 cursor-pointer"
-              src="/images/docent.png"
-              alt={user || "Usuari"}
-              width={100}
-              height={100}
-            />
+            <Avatar
+              src={'/images/docent.png'}
+              alt={`Bernat`}
+              sx={{ width: 80, height: 80 }}
+              className='w-16 h-16 rounded-full object-cover m-1.5'
+            >
+              {/* {teacher.firstname[0]}{teacher.lastname[0]} */}
+            </Avatar>
           </div>
         </aside>
       </div>
@@ -115,13 +114,14 @@ export default function Sidebar() {
                   <p className="place-self-end">Bernat</p>
                   <p className="place-self-start">Garcia</p>
                 </div>
-                <Image
-                  className="w-16 h-16 cursor-pointer"
-                  src="/images/docent.png"
-                  alt={user || "Usuari"}
-                  width={100}
-                  height={100}
-                />
+                <Avatar
+                  src={'/images/docent.png'}
+                  alt={`Bernat`}
+                  sx={{ width: 80, height: 80 }}
+                  className='w-16 h-16 rounded-full object-cover m-1.5'
+                >
+                  {/* {teacher.firstname[0]}{teacher.lastname[0]} */}
+                </Avatar>
               </div>
             </div>
           </>

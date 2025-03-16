@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { TeacherProfileInfoProps } from "../types/types";
-import { Mail as MailIcon, Badge as BadgeIcon } from '@mui/icons-material';
+import { Mail as MailIcon } from '@mui/icons-material';
 import { Avatar, Box, Card, CardContent, Typography, Tabs, Tab, Divider } from '@mui/material';
 
-export default function ClientTeacherProfileProp({ dataTeacher, classes }: TeacherProfileInfoProps) {
+export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfileInfoProps) {
   const [mounted, setMounted] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const { theme, systemTheme } = useTheme();
@@ -39,20 +39,16 @@ export default function ClientTeacherProfileProp({ dataTeacher, classes }: Teach
     }}>
       <Box sx={{ p: 3, display: 'flex', alignItems: 'center' }}>
         <Avatar
-          src={dataTeacher.imageUrl || '/images/docent.png'}
-          alt={`${dataTeacher.name} ${dataTeacher.firstName}`}
+          src={dataTeacher.profileimageurl || '/images/docent.png'}
+          alt={`${dataTeacher.firstname} ${dataTeacher.lastname}`}
           sx={{ width: 72, height: 72, mr: 2 }}
         >
-          {dataTeacher.name[0]}{dataTeacher.firstName[0]}
+          {dataTeacher.firstname[0]}{dataTeacher.lastname[0]}
         </Avatar>
         <Box>
           <Typography variant="h5" sx={{ color: isDark ? '#ffffff' : '#000000' }}>
-            {dataTeacher.name} {dataTeacher.firstName}
+            {dataTeacher.firstname} {dataTeacher.lastname}
           </Typography>
-          <Typography variant="body2" sx={{ color: isDark ? '#b3b3b3' : '#666666' }}>
-            Professor/a del departament {dataTeacher?.imageUrl || "matemátiques"}
-          </Typography>
-
         </Box>
       </Box>
 
@@ -86,7 +82,7 @@ export default function ClientTeacherProfileProp({ dataTeacher, classes }: Teach
               <MailIcon sx={{ mr: 1, color: isDark ? '#90caf9' : '#1976d2' }} />
               <Typography
                 component="a"
-                href={`mailto:${dataTeacher.mail}`}
+                href={`mailto:${dataTeacher.email}`}
                 sx={{
                   color: isDark ? '#90caf9' : '#1976d2',
                   textDecoration: 'none',
@@ -95,20 +91,14 @@ export default function ClientTeacherProfileProp({ dataTeacher, classes }: Teach
                   },
                 }}
               >
-                {dataTeacher.mail}
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <BadgeIcon sx={{ mr: 1, color: isDark ? '#90caf9' : '#1976d2' }} />
-              <Typography sx={{ color: isDark ? '#ffffff' : '#000000' }}>
-                ID: {dataTeacher.id}
+                {dataTeacher.email}
               </Typography>
             </Box>
           </Box>
         )}
         {tabValue === 1 && (
           <Box sx={{ mt: 2 }}>
-            {classes?.map((classItem) => (
+            {/* {classes?.map((classItem) => (
               <Typography
                 key={classItem.id}
                 variant="body1"
@@ -123,6 +113,24 @@ export default function ClientTeacherProfileProp({ dataTeacher, classes }: Teach
                 }}
               >
                 {classItem.name}
+              </Typography>
+            ))} */}
+
+            {dataTeacher.courses.map((course) => (
+              <Typography
+                key={course.id}
+                variant="body1"
+                sx={{
+                  color: isDark ? '#ffffff' : '#000000',
+                  mb: 1,
+                  p: 1,
+                  borderRadius: 1,
+                  '&:hover': {
+                    bgcolor: isDark ? 'rgba(144, 202, 249, 0.08)' : 'rgba(25, 118, 210, 0.08)'
+                  }
+                }}
+              >
+                {course.name}
               </Typography>
             ))}
           </Box>
