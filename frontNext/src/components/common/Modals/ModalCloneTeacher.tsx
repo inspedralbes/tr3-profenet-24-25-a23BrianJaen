@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { X } from "lucide-react";
 
-import { TeacherMoodle, Classes, ClonePayload, TeacherInfo } from "../../../types/types"
+import { TeacherMoodle, ClonePayload, TeacherInfo, Courses } from "../../../types/types"
 
 import SelectedCloneTeacher from "../Clone/SelectedCloneTeacher";
 import SelectedCloneClasses from "../Clone/SelectedCloneClasses";
@@ -13,33 +13,57 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
-  teachers: TeacherMoodle[];
-  classes: Classes[];
+  teacher: TeacherMoodle;
+  courses: Courses[];
 }
 
-export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, classes }: ModalProps) {
-  const [selectedTeacherOrigin, setSelectedTeacherOrigin] = useState<TeacherInfo | null>(null);
+export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, courses }: ModalProps) {
+  const [selectedTeacherOrigin, setSelectedTeacherOrigin] = useState<TeacherInfo | null>(teacher);
   const [selectedTeacherDestination, setSelectedTeacherDestination] = useState<TeacherInfo | null>(null);
-  const [selectedClasses, setSelectedClasses] = useState<Classes[]>(classes);
+  const [selectedClasses, setSelectedClasses] = useState<Courses[]>(courses);
+  const [allClasses, setAllClasses] = useState<Courses[]>(courses);
   const [step, setStep] = useState(1);
 
   const { theme } = useTheme();
 
   // Estate to store the payload
   const [payload, setPayload] = useState<ClonePayload>({
-    originTeacher: null,
+    originTeacher: teacher,
     destinationTeacher: null,
     selectedClasses: selectedClasses,
   });
 
+  // Reset cuando se abre o cierra el modal
+  useEffect(() => {
+    if (isOpen) {
+      // Cuando se abre el modal
+      setAllClasses(courses);
+      setSelectedClasses(courses);
+      setStep(1);
+      setSelectedTeacherOrigin(teacher);
+      setPayload({
+        originTeacher: teacher,
+        destinationTeacher: null,
+        selectedClasses: courses
+      });
+    }
+  }, [isOpen, courses, teacher]);
+
   if (!isOpen) return null;
 
   const handleTeacherClick = (id: string, firstname: string, lastname: string) => {
-    setSelectedTeacherOrigin(prev => (prev?.id === id ? null : { id, firstname, lastname }));
 
     setPayload(prev => ({
       ...prev,
-      originTeacher: prev.originTeacher?.id === id ? null : { id, firstname, lastname },
+      originTeacher: prev.originTeacher?.id === id ? null : {
+        id,
+        firstname,
+        lastname,
+        email: '',
+        profileimageurlsmall: '',
+        profileimageurl: '',
+        courses: []
+      },
     }));
   };
 
@@ -48,18 +72,24 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
 
     setPayload(prev => ({
       ...prev,
-      destinationTeacher: prev.destinationTeacher?.id === id ? null : { id, firstname, lastname },
+      destinationTeacher: prev.destinationTeacher?.id === id ? null : {
+        id,
+        firstname,
+        lastname,
+      },
     }));
+
+    console.log(selectedTeacherDestination);
   };
 
-  const handleClassesClick = (id: string, name: string) => {
+  const handleClassesClick = (id: string, name: string, shortname: string) => {
     setSelectedClasses((prev) => {
       const isAlreadySelected = prev.some((item) => item.id === id);
 
       if (isAlreadySelected) {
         return prev.filter((item) => item.id !== id);
       } else {
-        return [...prev, { id, name }];
+        return [...prev, { id, name, shortname }];
       }
     });
 
@@ -67,14 +97,25 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
       ...prev,
       selectedClasses: prev.selectedClasses.some((item) => item.id === id)
         ? prev.selectedClasses.filter((item) => item.id !== id)
-        : [...prev.selectedClasses, { id, name }],
+        : [...prev.selectedClasses, { id, name, shortname }],
     }));
   };
 
+  // Function for loading more classes (initial page is 1 just loaded)
+  const fetchMoreClasses = async (): Promise<Courses[]> => {
+    try {
+      await new Promise(resolve => setTimeout(resolve, 800));
+      return [];
+    } catch (error) {
+      console.error("Error fetching more classes:", error);
+      return [];
+    }
+  };
+
   const handleCloseModal = () => {
-    setSelectedTeacherOrigin(null);
+    setSelectedTeacherOrigin(teacher);
     setSelectedTeacherDestination(null);
-    setSelectedClasses(classes);
+    setSelectedClasses([]);
     setStep(1);
     onClose();
   };
@@ -117,42 +158,37 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teachers, cl
         {step === 1 && (
           <div>
             <ModalTitle normalText="Selecciona un docent" highlightedText="origen" additionalText="per clonar" />
-            {teachers.map((teach) => (
-              <SelectedCloneTeacher
-                key={teach.id}
-                teacher={teach}
-                selectedTeacher={selectedTeacherOrigin}
-                handleTeacherClick={() => handleTeacherClick(teach.id, teach.firstname, teach.lastname)}
-              />
-            ))}
+            <SelectedCloneTeacher
+              key={teacher.id}
+              teacher={teacher}
+              selectedTeacher={selectedTeacherOrigin}
+              handleTeacherClick={() => handleTeacherClick(teacher.id, teacher.firstname, teacher.lastname)}
+            />
           </div>
         )}
 
         {step === 2 && (
           <div>
             <ModalTitle normalText="Selecciona les assignatures per clonar" />
-            {classes.map((classe) => (
-              <SelectedCloneClasses
-                key={classe.id}
-                classes={classe}
-                selectedClasses={selectedClasses}
-                handleClassesClick={() => handleClassesClick(classe.id, classe.name)}
-              />
-            ))}
+            <SelectedCloneClasses
+              classes={allClasses}
+              selectedClasses={selectedClasses}
+              handleClassesClick={(classe) => handleClassesClick(classe.id, classe.name, classe.shortname)}
+              fetchMoreClasses={fetchMoreClasses}
+            />
           </div>
         )}
 
         {step === 3 && (
           <div>
             <ModalTitle normalText="Selecciona un docent" highlightedText="destí" additionalText="per clonar" />
-            {teachers.map((teach) => (
-              <SelectedCloneTeacher
-                key={teach.id}
-                teacher={teach}
-                selectedTeacher={selectedTeacherDestination}
-                handleTeacherClick={() => handleTeacherDestinationClick(teach.id, teach.firstname, teach.lastname)}
-              />
-            ))}
+            {/* Placeholder for a destination teacher - replace with real data */}
+            <SelectedCloneTeacher
+              key={"1"}
+              teacher={{ id: "1", firstname: "luis", lastname: "rodriguez" }}
+              selectedTeacher={selectedTeacherDestination}
+              handleTeacherClick={() => handleTeacherDestinationClick("1", "luis", "rodriguez")}
+            />
           </div>
         )}
 

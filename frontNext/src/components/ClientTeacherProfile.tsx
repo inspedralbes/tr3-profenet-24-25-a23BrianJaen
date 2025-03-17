@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { TeacherProfileInfoProps } from "../types/types";
+import ModalCloneTeacher from './common/Modals/ModalCloneTeacher';
 import { Mail as MailIcon } from '@mui/icons-material';
 import { Avatar, Box, Card, CardContent, Typography, Tabs, Tab, Divider } from '@mui/material';
 
@@ -10,6 +11,7 @@ export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfile
   const [mounted, setMounted] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const { theme, systemTheme } = useTheme();
+  const [isOpenModal, setIsOpenModal] = useState(false); // Add state for modal
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -37,7 +39,7 @@ export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfile
       color: isDark ? '#ffffff' : '#000000',
       border: isDark ? '1px solid #90caf9' : '1px solid #1976d2'
     }}>
-      <Box sx={{ p: 3, display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ p: 3, display: 'flex', alignItems: 'center', borderBottom: isDark ? '1px solid #90caf9' : '1px solid #1976d2' }}>
         <Avatar
           src={dataTeacher.profileimageurl || '/images/docent.png'}
           alt={`${dataTeacher.firstname} ${dataTeacher.lastname}`}
@@ -49,6 +51,17 @@ export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfile
           <Typography variant="h5" sx={{ color: isDark ? '#ffffff' : '#000000' }}>
             {dataTeacher.firstname} {dataTeacher.lastname}
           </Typography>
+        </Box>
+        {/* Add Clona Button */}
+        <Box className="md:ml-auto ml-4">
+          <button
+            className="border border-gray-300 px-2 py-1 md:px-4 md:py-2 rounded-lg cursor-pointer"
+            onClick={() => setIsOpenModal(true)}
+          >
+            Clona
+          </button>
+
+          <ModalCloneTeacher isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} teacher={dataTeacher} courses={dataTeacher.courses} />
         </Box>
       </Box>
 
@@ -97,25 +110,8 @@ export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfile
           </Box>
         )}
         {tabValue === 1 && (
-          <Box sx={{ mt: 2 }}>
-            {/* {classes?.map((classItem) => (
-              <Typography
-                key={classItem.id}
-                variant="body1"
-                sx={{
-                  color: isDark ? '#ffffff' : '#000000',
-                  mb: 1,
-                  p: 1,
-                  borderRadius: 1,
-                  '&:hover': {
-                    bgcolor: isDark ? 'rgba(144, 202, 249, 0.08)' : 'rgba(25, 118, 210, 0.08)'
-                  }
-                }}
-              >
-                {classItem.name}
-              </Typography>
-            ))} */}
-
+          // sx = {{mt: 2, display: 'flex', flexWrap: 'wrap' }}
+          <Box className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {dataTeacher.courses.map((course) => (
               <Typography
                 key={course.id}
@@ -130,7 +126,7 @@ export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfile
                   }
                 }}
               >
-                {course.name}
+                {course.shortname}
               </Typography>
             ))}
           </Box>

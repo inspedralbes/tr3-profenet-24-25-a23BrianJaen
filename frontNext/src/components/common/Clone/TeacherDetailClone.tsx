@@ -2,12 +2,9 @@
 
 import { TeacherDetailCloneProps } from "../../../types/types";
 
-// interface TeacherDetailCloneProps {
-//   payload: ClonePayload | null;
-//   text: string;
-// }
-
 export default function TeacherDetailClone({ payload, text }: TeacherDetailCloneProps) {
+  console.log(payload);
+
   return (
     <>
       <div className="mb-4">
@@ -15,7 +12,7 @@ export default function TeacherDetailClone({ payload, text }: TeacherDetailClone
           {text && text}
         </h3>
         <p className="text-secondary">
-          {payload && payload?.name} {payload && payload?.firstName}
+          {payload && payload?.firstname} {payload && payload?.lastname}
         </p>
       </div>
     </>
