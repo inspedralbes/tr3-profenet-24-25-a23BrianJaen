@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes';
 import { TeacherProfileInfoProps } from "../types/types";
 import ModalCloneTeacher from './common/Modals/ModalCloneTeacher';
 import { Mail as MailIcon } from '@mui/icons-material';
-import { Avatar, Box, Card, CardContent, Typography, Tabs, Tab, Divider } from '@mui/material';
+import { Avatar, Box, Card, CardContent, Typography, Tabs, Tab, Divider, Chip } from '@mui/material';
 
 export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfileInfoProps) {
   const [mounted, setMounted] = useState(false);
@@ -32,7 +32,7 @@ export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfile
 
   return (
     <Card sx={{
-      maxWidth: 'xl',
+      maxWidth: 'md',
       mx: 'auto',
       mt: 4,
       bgcolor: isDark ? '#1e1e1e' : '#ffffff',
@@ -110,12 +110,11 @@ export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfile
           </Box>
         )}
         {tabValue === 1 && (
-          // sx = {{mt: 2, display: 'flex', flexWrap: 'wrap' }}
-          <Box className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+          <Box className="flex flex-wrap gap-2">
             {dataTeacher.courses.map((course) => (
-              <Typography
+              <Chip
+                label={course?.name}
                 key={course.id}
-                variant="body1"
                 sx={{
                   color: isDark ? '#ffffff' : '#000000',
                   mb: 1,
@@ -125,9 +124,7 @@ export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfile
                     bgcolor: isDark ? 'rgba(144, 202, 249, 0.08)' : 'rgba(25, 118, 210, 0.08)'
                   }
                 }}
-              >
-                {course.shortname}
-              </Typography>
+              />
             ))}
           </Box>
         )}

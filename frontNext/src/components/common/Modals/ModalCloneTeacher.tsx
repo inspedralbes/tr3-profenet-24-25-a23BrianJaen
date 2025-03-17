@@ -101,17 +101,6 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
     }));
   };
 
-  // Function for loading more classes (initial page is 1 just loaded)
-  const fetchMoreClasses = async (): Promise<Courses[]> => {
-    try {
-      await new Promise(resolve => setTimeout(resolve, 800));
-      return [];
-    } catch (error) {
-      console.error("Error fetching more classes:", error);
-      return [];
-    }
-  };
-
   const handleCloseModal = () => {
     setSelectedTeacherOrigin(teacher);
     setSelectedTeacherDestination(null);
@@ -176,7 +165,6 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
                 classes={allClasses}
                 selectedClasses={selectedClasses}
                 handleClassesClick={(classe) => handleClassesClick(classe.id, classe.name, classe.shortname)}
-                fetchMoreClasses={fetchMoreClasses}
               />
             </div>
           )}

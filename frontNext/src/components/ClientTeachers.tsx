@@ -94,8 +94,8 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
             disabled={isChangingPage}
             className={`px-4 py-2 rounded-lg hover:cursor-pointer transition-all duration-200
               ${currentPage === pageNum
-                ? 'bg-primary text-primary font-bold shadow-md'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                : 'bg-primary text-primary font-bold shadow-lg'
               }`}
           >
             {pageNum}
