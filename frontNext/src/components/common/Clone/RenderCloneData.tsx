@@ -15,7 +15,7 @@ export default function RenderCloneData({ payload }: RenderCloneDataProps) {
   return (
     <div className="p-4 border rounded-lg shadow-lg bg-background">
       {payload.originTeacher ? (
-        <TeacherDetailClone payload={payload.originTeacher} text="Professor d'origen" />
+        <TeacherDetailClone payload={payload.originTeacher} text="Professor/a d'origen" />
       ) :
         (
           <p>No hi ha informació del profesor disponible</p>

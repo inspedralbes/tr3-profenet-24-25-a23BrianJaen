@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { X } from "lucide-react";
 
-import { TeacherMoodle, ClonePayload, TeacherInfo, Courses } from "../../../types/types"
+import { TeacherMoodle, ClonePayload, TeacherInfo, Courses } from "../../../../types/types"
 
-import SelectedCloneTeacher from "../Clone/SelectedCloneTeacher";
-import SelectedCloneClasses from "../Clone/SelectedCloneClasses";
-import ConfirmClone from "../Clone/ConfirmClone";
+import SelectedCloneTeacher from "../../Clone/SelectedCloneTeacher";
+import SelectedCloneClasses from "../../Clone/SelectedCloneClasses";
+import ConfirmClone from "../../Clone/ConfirmClone";
 import ModalTitle from "./ModalTitle";
 
 import { cloneCoursesTeacher } from "@/src/services/communicationManager";
@@ -31,7 +31,6 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
   const [allClasses, setAllClasses] = useState<Courses[]>(courses);
   const [step, setStep] = useState(1);
   const [countdown, setCountdown] = useState<number>(3);
-
 
   const { theme } = useTheme();
 
@@ -320,7 +319,7 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
                     onClick={handleSendRequestToBack}
                     disabled={!selectedTeacherDestination}
                   >
-                    Clonar Clases
+                    Clonar Classes
                   </button>
                 )}
               </div>

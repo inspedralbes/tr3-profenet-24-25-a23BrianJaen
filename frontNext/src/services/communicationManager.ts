@@ -58,3 +58,27 @@ export const cloneCoursesTeacher = async (teacherId: string, courses: CourseId[]
     .then(res => res.json())
     .then(response => response.data);
 };
+
+export const manageCoursesTeacher = async (teacherId: string, courses: CourseId[]) => {
+
+  console.log("entra en el comunication manager");
+
+  console.log(JSON.stringify({
+    teacherId,
+    courses: courses
+  }));
+
+  return fetch(`${API_URL_NODE}/manageCourses`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      teacherId,
+      courses: courses
+    }),
+  })
+    .then(res => res.json())
+    .then(response => response.data);
+};

@@ -37,12 +37,22 @@ interface TeacherDetailCloneProps {
   text: string;
 }
 
+interface TeacherDetailManageProps {
+  payload: TeacherInfo | null;
+  text: string;
+}
+
 interface TeacherProfileInfoProps {
   dataTeacher: TeacherMoodle
 }
 export interface ClonePayload {
   originTeacher?: TeacherMoodleClone | null;
   destinationTeacher: TeacherMoodleClone | null;
+  selectedClasses: Courses[];
+}
+
+export interface ManagePayload {
+  destinationTeacher?: TeacherMoodleClone | null;
   selectedClasses: Courses[];
 }
 
@@ -54,4 +64,17 @@ export interface sendPayload {
 interface ClaseDetailClone {
   payload: Classes[],
   text: string
+}
+
+interface ClaseDetailManage {
+  payload: Classes[],
+  text: string
+}
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title?: string;
+  teacher?: TeacherMoodle;
+  courses: Courses[];
 }

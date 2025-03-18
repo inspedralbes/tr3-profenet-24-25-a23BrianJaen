@@ -268,3 +268,48 @@ export async function cloneCourses(req, res) {
     });
   }
 }
+
+export async function manageCourses(req, res) {
+  try {
+    const { teacherId, courses } = req.body;
+
+    console.log('Teacher ID:', teacherId);
+    console.log('Selected Classes:', courses);
+
+    const params = new URLSearchParams();
+    params.append("wstoken", process.env.MOODLE_API_TOKEN);
+    params.append("wsfunction", "enrol_manual_unenrol_users");
+    params.append("moodlewsrestformat", "json");
+
+    courses.forEach((course, index) => {
+      params.append(`enrolments[${index}][roleid]`, "3");
+      params.append(`enrolments[${index}][userid]`, teacherId);
+      params.append(`enrolments[${index}][courseid]`, course.id.toString());
+    });
+
+    const url = `${process.env.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (response.status === 200) {
+      return res.json({
+        status: 'success',
+        message: 'Courses cloned successfully',
+        data: "success"
+      });
+    } else {
+      return res.status(500).json({
+        status: 'error',
+        message: 'Failed to clone courses',
+        error: data
+      });
+    }
+
+  } catch (error) {
+    console.error('Error cloning courses:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: 'Internal server error',
+    });
+  }
+}

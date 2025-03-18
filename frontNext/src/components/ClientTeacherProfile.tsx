@@ -3,15 +3,17 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { TeacherProfileInfoProps } from "../types/types";
-import ModalCloneTeacher from './common/Modals/ModalCloneTeacher';
+import ModalCloneTeacher from './common/Modals/CloneModals/ModalCloneTeacher';
 import { Mail as MailIcon } from '@mui/icons-material';
 import { Avatar, Box, Card, CardContent, Typography, Tabs, Tab, Divider, Chip } from '@mui/material';
+import ModalManageCoursesTeacher from './common/Modals/ManageModals/ModalManageCoursesTeacher';
 
 export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfileInfoProps) {
   const [mounted, setMounted] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const { theme, systemTheme } = useTheme();
-  const [isOpenModal, setIsOpenModal] = useState(false); // Add state for modal
+  const [isOpenModalClone, setIsOpenModalClone] = useState(false);
+  const [isOpenModalManage, setIsOpenModalManage] = useState(false);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -53,16 +55,28 @@ export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfile
           </Typography>
         </Box>
         {/* Add Clona Button */}
-        <Box className="md:ml-auto ml-4">
+        <Box className="md:ml-auto flex flex-col md:flex-row gap-3">
+          {/* Clone button */}
           <button
             className="border border-gray-300 px-2 py-1 md:px-4 md:py-2 rounded-lg cursor-pointer"
-            onClick={() => setIsOpenModal(true)}
+            onClick={() => setIsOpenModalClone(true)}
           >
             Clona
           </button>
 
-          <ModalCloneTeacher isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} teacher={dataTeacher} courses={dataTeacher.courses} />
+          <ModalCloneTeacher isOpen={isOpenModalClone} onClose={() => setIsOpenModalClone(false)} teacher={dataTeacher} courses={dataTeacher.courses} />
+
+          {/* Manage classes */}
+          <button
+            className="border border-gray-300 px-2 py-1 md:px-4 md:py-2 rounded-lg cursor-pointer"
+            onClick={() => setIsOpenModalManage(true)}
+          >
+            Desubscriure&apos;s de les Classes
+          </button>
+
+          <ModalManageCoursesTeacher isOpen={isOpenModalManage} onClose={() => setIsOpenModalManage(false)} teacher={dataTeacher} courses={dataTeacher.courses} />
         </Box>
+
       </Box>
 
       <Divider />
@@ -95,7 +109,8 @@ export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfile
               <MailIcon sx={{ mr: 1, color: isDark ? '#90caf9' : '#1976d2' }} />
               <Typography
                 component="a"
-                href={`mailto:${dataTeacher.email}`}
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${dataTeacher.email}`}
+                target='_blank'
                 sx={{
                   color: isDark ? '#90caf9' : '#1976d2',
                   textDecoration: 'none',
@@ -120,8 +135,9 @@ export default function ClientTeacherProfileProp({ dataTeacher }: TeacherProfile
                   mb: 1,
                   p: 1,
                   borderRadius: 1,
+                  background: isDark ? '#151515' : '#E2E2E2',
                   '&:hover': {
-                    bgcolor: isDark ? 'rgba(144, 202, 249, 0.08)' : 'rgba(25, 118, 210, 0.08)'
+                    bgcolor: isDark ? 'rgba(144, 202, 249, 0.12)' : 'rgba(25, 118, 210, 0.12)'
                   }
                 }}
               />
