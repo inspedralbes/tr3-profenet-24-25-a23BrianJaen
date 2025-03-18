@@ -1,6 +1,6 @@
 FROM node:23.6.0
 
-WORKDIR /front
+WORKDIR /frontNext
 
 COPY package*.json ./
 

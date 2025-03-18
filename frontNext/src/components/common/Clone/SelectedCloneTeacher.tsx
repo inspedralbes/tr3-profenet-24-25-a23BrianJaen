@@ -20,8 +20,8 @@ export default function SelectedCloneTeacher({ teacher, selectedTeacher, handleT
       onClick={() => handleTeacherClick(teacher.id)}
       className={`relative flex flex-row items-center rounded-lg hover:scale-110 
       hover:cursor-pointer hover:border hover:border-primary transition-transform duration-300 ease-in-out 
-      origin-center m-2
-      ${selectedTeacher?.id === teacher.id ? 'scale-105 border border-primary' : ''} 
+      origin-center my-4
+      ${selectedTeacher?.id === teacher.id ? 'scale-105 border border-primary ' : ''} 
       ${selectedTeacher?.id === teacher.id ? (theme === "dark" ? "bg-blue-950" : "bg-blue-100") : ""}`}
     >
       <Avatar

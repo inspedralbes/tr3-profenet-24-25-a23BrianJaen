@@ -8,7 +8,7 @@ import { cn } from "@/src/services/utils";
 import { navigation } from "@/src/constants/navigation";
 
 import { Menu } from "lucide-react";
-import Avatar from "@mui/material/Avatar/Avatar";
+// import Avatar from "@mui/material/Avatar/Avatar";
 
 export default function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,7 +48,7 @@ export default function Sidebar() {
                 </a>
               );
             })}
-          <div className="flex fixed bottom-0 px-2 mb-1.5 py-4">
+          {/* <div className="flex fixed bottom-0 px-2 mb-1.5 py-4">
             <p className="place-self-end mr-3">Bernat Garcia</p>
             <Avatar
               src={'/images/docent.png'}
@@ -56,9 +56,9 @@ export default function Sidebar() {
               sx={{ width: 80, height: 80 }}
               className='w-16 h-16 rounded-full object-cover m-1.5'
             >
-              {/* {teacher.firstname[0]}{teacher.lastname[0]} */}
+              {teacher.firstname[0]}{teacher.lastname[0]}
             </Avatar>
-          </div>
+          </div> */}
         </aside>
       </div>
 
@@ -109,7 +109,7 @@ export default function Sidebar() {
                     </a>
                   );
                 })}
-              <div className="flex fixed bottom-0 px-2 mb-1.5 py-4">
+              {/* <div className="flex fixed bottom-0 px-2 mb-1.5 py-4">
                 <div className="grid grid-rows-2 mr-4">
                   <p className="place-self-end">Bernat</p>
                   <p className="place-self-start">Garcia</p>
@@ -120,9 +120,9 @@ export default function Sidebar() {
                   sx={{ width: 80, height: 80 }}
                   className='w-16 h-16 rounded-full object-cover m-1.5'
                 >
-                  {/* {teacher.firstname[0]}{teacher.lastname[0]} */}
+                  {teacher.firstname[0]}{teacher.lastname[0]}
                 </Avatar>
-              </div>
+              </div> */}
             </div>
           </>
         )}

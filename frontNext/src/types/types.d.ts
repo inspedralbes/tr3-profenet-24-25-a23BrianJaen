@@ -12,7 +12,7 @@ interface TeacherMoodle {
   lastname: string,
   email: string,
   profileimageurlsmall: string,
-  profileimageurl: string,
+  profileimageurl?: string,
   courses: Courses[]
 }
 
@@ -41,8 +41,13 @@ interface TeacherProfileInfoProps {
   dataTeacher: TeacherMoodle
 }
 export interface ClonePayload {
-  originTeacher: TeacherMoodleClone | null;
+  originTeacher?: TeacherMoodleClone | null;
   destinationTeacher: TeacherMoodleClone | null;
+  selectedClasses: Courses[];
+}
+
+export interface sendPayload {
+  destinationTeacher: TeacherMoodleClone;
   selectedClasses: Courses[];
 }
 

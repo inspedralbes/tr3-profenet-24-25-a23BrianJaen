@@ -11,9 +11,6 @@ export default async function TeacherProfile({ params }: Props) {
 
   const dataCourses = await getTeacherCoursesById(id);
 
-  console.log(dataCourses);
-
-
   return (
     <ClientTeacherProfile dataTeacher={dataCourses} />
   );

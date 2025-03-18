@@ -74,21 +74,28 @@ services:
   # NEXTJS
   next:
     build:
-      context: ./front
+      context: ./frontNext
     ports:
       - 3000:3000
     volumes:
-      - ./front:/app
+      - ./frontNext:/app
     depends_on:
       - laravel
       - node
     restart: always
     environment:
-      NUXT_APP_API_URL: http://laravel:8000
-      CHOKIDAR_USEPOLLING: true
+      NUXT_APP_API_URL: http://laravel:8000/api
+      NEXT_PUBLIC_API_URL_NODE: http://localhost:3010/api/moodle
+    networks:
+      - nuxtNetwork
     command: bash -c "npm install && npm run dev"
 
 volumes:
   mysql_data:
   moodle_data:
   moodle_data_moodledata:
+
+
+networks:
+  nuxtNetwork:
+    driver: bridge
