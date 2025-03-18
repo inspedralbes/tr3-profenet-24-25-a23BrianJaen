@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import authMiddleware from './middleware/authMiddleware.js';
-import { getTeachersByCourses, getTeacherCourses } from './controllers/moodleController.js';
+import { getTeachersByCourses, getTeacherCourses, getAllUsers } from './controllers/moodleController.js';
 
 // Loading env vars
 config();
@@ -18,6 +18,7 @@ app.use(authMiddleware);
 // Routes
 app.get('/api/moodle/getTeachers', getTeachersByCourses);
 app.get('/api/moodle/teacher/:teacherId/courses', getTeacherCourses);
+app.get('/api/moodle/users', getAllUsers);
 
 // Test route
 app.get('/test', (req, res) => {

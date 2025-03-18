@@ -172,3 +172,54 @@ export async function getTeacherCourses(req, res) {
     });
   }
 }
+
+async function getAllUsersMoodle() {
+  try {
+
+    const params = new URLSearchParams({
+      wstoken: process.env.MOODLE_API_TOKEN,
+      wsfunction: "core_user_get_users",
+      moodlewsrestformat: "json",
+      "criteria[0][key]": "",
+      "criteria[0][value]": "",
+    });
+
+    const url = `${process.env.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`
+
+    const response = await fetch(url);
+
+    const data = await response.json()
+
+    return data.users; // List all users moodle
+  } catch (error) {
+    console.error("Error fetching all Moodle users:", error);
+    throw new Error(`Failed to fetch Moodle users: ${error.message}`);
+  }
+}
+
+/**
+ * Get all users 
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Promise<Object>} Teacher's information.
+ */
+export async function getAllUsers(req, res) {
+  const teachers = await getAllUsersMoodle();
+  const teacherCourseMap = new Map();
+
+  teachers.forEach((teacher) => {
+    if (!teacherCourseMap.has(teacher.id)) {
+      // If the teacher is not in the map, initialize it
+      teacherCourseMap.set(teacher.id, {
+        id: teacher.id,
+        firstname: teacher.firstname,
+        lastname: teacher.lastname,
+        profileimageurlsmall: teacher.profileimageurlsmall,
+      });
+    }
+  });
+
+  // Convert the Map to an array of teachers
+  const teachersArray = Array.from(teacherCourseMap.values());
+  res.json({ status: 'success', data: teachersArray });
+}
