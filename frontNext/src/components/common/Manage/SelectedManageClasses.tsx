@@ -1,6 +1,7 @@
 import { useTheme } from "next-themes";
 import { Courses } from "../../../types/types";
 import { useEffect, useState } from "react";
+import { Check } from "lucide-react";
 
 interface SelectedManageClassesProps {
   classes: Courses[];
@@ -41,6 +42,7 @@ export default function SelectedManageClasses({
                 ${isSelected ? (theme === "dark" ? "bg-blue-950" : "bg-blue-100") : ""}`}
             >
               <p className="text-primary">{classItem.name}</p>
+              <span>{isSelected ? <Check /> : ''}</span>
             </div>
           );
         })}
