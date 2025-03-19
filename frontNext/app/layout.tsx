@@ -4,6 +4,7 @@ import "./globals.css";
 import Sidebar from '@/src/components/common/Layout/Sidebar';
 import Header from "@/src/components/common/Layout/Header";
 import { ThemeProvider } from '@/src/components/providers/ThemeProvider';
+import { Metadata } from 'next'
 
 export default function RootLayout({
   children,
@@ -32,4 +33,16 @@ export default function RootLayout({
       </body>
     </html>
   );
+}
+
+export const metadata: Metadata = {
+  title: 'ProfeNet',
+  description: 'ProfeNet - Xarxa de professors',
+  icons: {
+    icon: '/favicon.ico',
+    apple: [
+      { url: '/apple-icon.png' },
+      { url: '/apple-icon-180x180.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
 }
