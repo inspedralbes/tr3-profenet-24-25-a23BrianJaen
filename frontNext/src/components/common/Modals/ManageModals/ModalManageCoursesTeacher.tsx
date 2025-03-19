@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
+
 import { useTheme } from "next-themes";
 import { X } from "lucide-react";
 
@@ -14,13 +16,14 @@ import { Toaster, toast } from "sonner"
 
 
 export default function ModalManageCoursesTeacher({ isOpen, onClose, title, teacher, courses }: ModalProps) {
-  const [selectedTeacherDestination, setSelectedTeacherDestination] = useState<TeacherInfo | null>(null);
+  const [selectedTeacherDestination, setSelectedTeacherDestination] = useState<TeacherInfo>(teacher);
   const [selectedClasses, setSelectedClasses] = useState<Courses[]>(courses);
   const [allClasses, setAllClasses] = useState<Courses[]>(courses);
   const [step, setStep] = useState(1);
   const [countdown, setCountdown] = useState<number>(3);
 
   const { theme } = useTheme();
+  const router = useRouter();
 
   // Estate to store the payload
   const [payload, setPayload] = useState<ManagePayload>({
@@ -32,6 +35,7 @@ export default function ModalManageCoursesTeacher({ isOpen, onClose, title, teac
   useEffect(() => {
     if (isOpen) {
       // When modal is open
+      setSelectedTeacherDestination(teacher)
       setAllClasses(courses);
       setSelectedClasses(courses);
       setStep(1);
@@ -44,7 +48,7 @@ export default function ModalManageCoursesTeacher({ isOpen, onClose, title, teac
 
   useEffect(() => {
     if (isOpen) {
-      setCountdown(3);
+      setCountdown(4);
     }
   }, [isOpen]);
 
@@ -70,10 +74,10 @@ export default function ModalManageCoursesTeacher({ isOpen, onClose, title, teac
   };
 
   const handleCloseModal = () => {
-    setSelectedTeacherDestination(null);
+    // setSelectedTeacherDestination(null);
     setSelectedClasses([]);
     setStep(1);
-    setCountdown(3); // Reset countdown when closing
+    setCountdown(4); // Reset countdown when closing
     onClose();
   };
 
@@ -88,7 +92,6 @@ export default function ModalManageCoursesTeacher({ isOpen, onClose, title, teac
   const handleSendRequestToBack = async () => {
 
     console.log(selectedTeacherDestination);
-
 
     if (!selectedTeacherDestination || selectedClasses.length === 0) return;
 
@@ -109,16 +112,17 @@ export default function ModalManageCoursesTeacher({ isOpen, onClose, title, teac
         description: (
           <div>
             <p>S&apos;ha desuscrit correctament de les classes</p>
+            <p>Se&apos;t tornarà a la vista de professors</p>
             <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2 dark:bg-gray-700">
               <div
                 className="bg-green-600 h-1.5 rounded-full transition-all duration-1000"
-                style={{ width: `${((3 - countdown) / 3) * 100}%` }}
+                style={{ width: `${((4 - countdown) / 4) * 100}%` }}
               />
             </div>
             <p className="text-sm mt-1">Tancant en {countdown} segons...</p>
           </div>
         ),
-        duration: 3000,
+        duration: 4000,
         position: "top-right",
         style: {
           background: theme === "dark" ? "#1f2937" : "#fff",
@@ -135,8 +139,9 @@ export default function ModalManageCoursesTeacher({ isOpen, onClose, title, teac
       setTimeout(() => {
         clearInterval(timer);
         handleCloseModal();
-        setCountdown(3); // Reset countdown
-      }, 3000);
+        setCountdown(4); // Reset countdown
+        router.replace('/teachers');
+      }, 4000);
     }
 
   };

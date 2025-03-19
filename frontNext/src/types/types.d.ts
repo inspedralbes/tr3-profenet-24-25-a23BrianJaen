@@ -75,6 +75,6 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
-  teacher?: TeacherMoodle;
+  teacher: TeacherMoodle;
   courses: Courses[];
 }
