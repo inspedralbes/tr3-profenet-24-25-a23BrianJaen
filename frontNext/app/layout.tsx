@@ -19,7 +19,7 @@ export default function RootLayout({
           <div className="flex-1 flex flex-col">
             <Header />
             {/* Page Content */}
-            <main className="flex-1 p-6 bg-background">
+            <main className="flex-1 px-6 py-4 bg-background">
               {children}
             </main>
             <footer>

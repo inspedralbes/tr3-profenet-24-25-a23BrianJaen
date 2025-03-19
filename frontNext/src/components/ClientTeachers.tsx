@@ -5,6 +5,7 @@ import { type TeacherMoodle } from "../types/types";
 import TitlePage from "./common/Layout/TitlePage";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 
 interface ClientTeachersProps {
   teachers: TeacherMoodle[];
@@ -13,6 +14,8 @@ interface ClientTeachersProps {
 export default function ClientTeachers({ teachers }: ClientTeachersProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isChangingPage, setIsChangingPage] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const teachersPerPage = 8;
 
   // Calculate the teachers to display for the current page
@@ -41,88 +44,124 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
     });
   }, [currentPage]);
 
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
+  const SkeletonCard = () => (
+    <div className="bg-gray-200 dark:bg-gray-700 rounded-lg p-4 animate-pulse">
+      <div className="flex items-center space-x-4">
+        <div className="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+        <div className="flex-1 space-y-2">
+          <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4"></div>
+          <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/2"></div>
+        </div>
+      </div>
+      <div className="space-y-3 mt-4">
+        <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded"></div>
+        <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-5/6"></div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="container">
+    <div className="container flex flex-col">
       <div className="grid md:grid-cols-2 p-2 items-center md:mb-6 sm:mb-2">
         <TitlePage text="Professors" />
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentPage}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
-          className="grid sm:grid-cols-2 md:grid-cols-4 gap-4"
-        >
-          {currentTeachers.map((teach, index) => (
-            <motion.div
-              key={teach.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.3,
-                delay: index * 0.05, // Card staggering
-              }}
-            >
-              <MediaCard teacher={teach} />
-            </motion.div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Pagination controls */}
-      <div className="flex justify-center gap-2 mt-6 flex-wrap">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1 || isChangingPage}
-          className="px-4 py-2 rounded-lg bg-primary hover:cursor-pointer text-primary 
-                    disabled:cursor-auto disabled:opacity-50 transition-all duration-200"
-        >
-          Enrera
-        </motion.button>
-
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-          <motion.button
-            key={pageNum}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handlePageChange(pageNum)}
-            disabled={isChangingPage}
-            className={`px-4 py-2 rounded-lg hover:cursor-pointer transition-all duration-200
-              ${currentPage === pageNum
-                ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                : 'bg-primary text-primary font-bold shadow-lg'
-              }`}
+      {/* Content area with flex-grow to push pagination to bottom */}
+      <div className="flex-grow">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentPage}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="grid sm:grid-cols-2 md:grid-cols-4 gap-4"
           >
-            {pageNum}
-          </motion.button>
-        ))}
+            {isLoading ? (
+              // Skeleton loading state
+              [...Array(8)].map((_, index) => (
+                <motion.div
+                  key={`skeleton-${index}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                >
+                  <SkeletonCard />
+                </motion.div>
+              ))
+            ) : (
+              // Actual content
+              currentTeachers.map((teach, index) => (
+                <motion.div
+                  key={teach.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                >
+                  <MediaCard teacher={teach} />
+                </motion.div>
+              ))
+            )}
+          </motion.div>
+        </AnimatePresence>
+        <div className=" pt-4">
+          <div className="flex justify-center gap-2 flex-wrap">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1 || isChangingPage}
+              className="px-4 py-2 rounded-lg bg-primary hover:cursor-pointer text-primary 
+              disabled:cursor-auto disabled:opacity-50 transition-all duration-200"
+            >
+              {/* Enrera */}
+              <ArrowBigLeft />
+            </motion.button>
 
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages || isChangingPage}
-          className="px-4 py-2 hover:cursor-pointer rounded-lg bg-primary text-primary
-                    disabled:cursor-auto disabled:opacity-50 transition-all duration-200"
-        >
-          Següent
-        </motion.button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+              <motion.button
+                key={pageNum}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handlePageChange(pageNum)}
+                disabled={isChangingPage}
+                className={`px-4 py-2 rounded-lg hover:cursor-pointer transition-all duration-200
+                ${currentPage === pageNum
+                    ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    : 'bg-primary text-primary font-bold shadow-lg'
+                  }`}
+              >
+                {pageNum}
+              </motion.button>
+            ))}
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages || isChangingPage}
+              className="px-4 py-2 hover:cursor-pointer rounded-lg bg-primary text-primary
+              disabled:cursor-auto disabled:opacity-50 transition-all duration-200"
+            >
+              {/* Següent */}
+              <ArrowBigRight />
+            </motion.button>
+          </div>
+
+          <motion.p
+            key={currentPage}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center mt-4 text-primary"
+          >
+            Página {currentPage} de {totalPages}
+          </motion.p>
+        </div>
       </div>
-
-      {/* Indication current page */}
-      <motion.p
-        key={currentPage}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="text-center mt-4 text-primary"
-      >
-        Página {currentPage} de {totalPages}
-      </motion.p>
     </div>
   );
 }
