@@ -5,7 +5,7 @@ interface TitlePageProps {
 
 export default function TitlePage({ text }: TitlePageProps) {
   return (
-    <div className="inline-block w-fit border border-gray-300 p-2 rounded-lg mb-6">
+    <div className="flex items-center w-fit border border-gray-300 p-2 rounded-lg ">
       <span className="text-4xl font-bold">{text}</span>
     </div>
   )

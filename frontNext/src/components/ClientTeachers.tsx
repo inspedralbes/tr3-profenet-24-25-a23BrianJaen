@@ -6,25 +6,60 @@ import TitlePage from "./common/Layout/TitlePage";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import { useSearchAndPagination } from '../hooks/useSearchAndPagination';
 
 interface ClientTeachersProps {
   teachers: TeacherMoodle[];
 }
 
 export default function ClientTeachers({ teachers }: ClientTeachersProps) {
-  const [currentPage, setCurrentPage] = useState(1);
   const [isChangingPage, setIsChangingPage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const teachersPerPage = 8;
+  const {
+    currentPage,
+    setCurrentPage,
+    searchTerm,
+    handleSearch,
+    currentItems: currentTeachers,
+    totalPages
+  } = useSearchAndPagination({
+    items: teachers,
+    itemsPerPage: 8
+  });
+
+  // const teachersPerPage = 8;
 
   // Calculate the teachers to display for the current page
-  const indexOfLastTeacher = currentPage * teachersPerPage;
-  const indexOfFirstTeacher = indexOfLastTeacher - teachersPerPage;
-  const currentTeachers = teachers.slice(indexOfFirstTeacher, indexOfLastTeacher);
+  // const indexOfLastTeacher = currentPage * teachersPerPage;
+  // const indexOfFirstTeacher = indexOfLastTeacher - teachersPerPage;
+  // Add this state near your other useState declarations
+  // const [searchTerm, setSearchTerm] = useState("");
 
-  // Calculate total pages
-  const totalPages = Math.ceil(teachers.length / teachersPerPage);
+  // Filter teachers
+  // const filteredTeachers = teachers.filter((teacher) =>
+  //   `${teacher.firstname} ${teacher.lastname}`
+  //     .toLowerCase()
+  //     .includes(searchTerm.toLowerCase())
+  // );
+
+  // Update the currentTeachers calculation
+  // const currentTeachers = filteredTeachers.slice(indexOfFirstTeacher, indexOfLastTeacher);
+
+  // Update the totalPages calculation to use filtered results
+  // const totalPages = Math.ceil(filteredTeachers.length / teachersPerPage);
+
+  // Update the input element
+  // <input
+  //   className="border border-gray-300 rounded-md p-2"
+  //   type="text"
+  //   placeholder="Introdueix un nom"
+  //   value={searchTerm}
+  //   onChange={(e) => {
+  //     setSearchTerm(e.target.value);
+  //     setCurrentPage(1); // Reset to first page when searching
+  //   }}
+  // />
 
   const handlePageChange = (pageNumber: number) => {
     if (pageNumber < 1 || pageNumber > totalPages || pageNumber === currentPage) return;
@@ -66,8 +101,23 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
 
   return (
     <div className="container flex flex-col">
-      <div className="grid md:grid-cols-2 p-2 items-center md:mb-6 sm:mb-2">
+      <div className="flex gap-2 p-2 items-center md:mb-6 sm:mb-2 justify-between">
         <TitlePage text="Professors" />
+        <div className="relative group">
+          <input
+            className="border border-gray-300 rounded-md p-2"
+            type="text"
+            placeholder="Introdueix un nom"
+            value={searchTerm}
+            onChange={(e) => {
+              handleSearch(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+          <div className="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded-md px-2 py-1 -bottom-8 right-0 whitespace-nowrap">
+            Cerca un professor pel seu nom
+          </div>
+        </div>
       </div>
 
       {/* Content area with flex-grow to push pagination to bottom */}
