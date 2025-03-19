@@ -1,25 +1,23 @@
 "use client"
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from 'next/navigation'
 
 import { cn } from "@/src/services/utils";
 import { navigation } from "@/src/constants/navigation";
 
-import { Menu } from "lucide-react";
 // import Avatar from "@mui/material/Avatar/Avatar";
 
-export default function Sidebar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+interface sidebarProps {
+  isMenuOpen?: boolean;
+  toggleMenu?: () => void
+}
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
+export default function Sidebar({ isMenuOpen, toggleMenu }: sidebarProps) {
   const pathname = usePathname()
 
   const currentPath = pathname
+
   return (
     <div className="flex h-full">
       {/* Sidebar for large devices */}
@@ -64,12 +62,6 @@ export default function Sidebar() {
 
       {/* Drop down menu for small screens */}
       <div className="md:hidden">
-        <button
-          onClick={toggleMenu}
-          className="p-3 text-2xl bg-background text-primary hover:bg-accent"
-        >
-          {isMenuOpen ? "" : <Menu className="h-6 w-6" />}
-        </button>
 
         {/* Dropdown */}
         {isMenuOpen && (
@@ -77,18 +69,17 @@ export default function Sidebar() {
             {/* Fondo oscuro detrás de la sidebar */}
             <div
               className="fixed inset-0 bg-black opacity-50 z-40 transition-opacity duration-300"
-              onClick={toggleMenu} // Cerrar menú al hacer clic fuera
+              onClick={toggleMenu} // Close menu when clicking outside
             ></div>
 
             {/* Sidebar */}
             <div
               className={`transition-all ease-in-out duration-500 
-              fixed top-0 left-0 w-48 h-screen p-4 z-50 
+              fixed top-0 left-0 w-56 h-full px-4 py-8 z-50
               ${isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-[-100%] opacity-0"}
               ${localStorage.getItem("theme") === "dark" ? "bg-card bg-[#101315] border-r-1 border-blue-300" : "bg-card bg-amber-50 border-r-2 border-e-blue-400"}
               `}
             >
-              <h1 className="text-primary font-bold">Profenet</h1>
               {navigation &&
                 navigation.map((item, id) => {
                   const isActive = currentPath === item.href;
@@ -98,7 +89,7 @@ export default function Sidebar() {
                       key={id}
                       href={item.href}
                       className={cn(
-                        "flex items-center gap-x-3 rounded-md px-3 py-2 text-sm font-medium",
+                        "flex items-center gap-x-3 rounded-md px-3 py-2 text-md font-medium",
                         isActive
                           ? "bg-primary text-primary-foreground"
                           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"

@@ -18,7 +18,9 @@ export default function RootLayout({
           <Sidebar />
           {/* Main Content */}
           <div className="flex-1 flex flex-col">
-            <Header />
+            <div className="sticky top-0 z-50">
+              <Header />
+            </div>
             {/* Page Content */}
             <main className="flex-1 px-6 py-4 bg-background">
               {children}

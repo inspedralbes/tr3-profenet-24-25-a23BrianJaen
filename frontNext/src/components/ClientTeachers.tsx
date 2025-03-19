@@ -79,7 +79,9 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
       </div>
 
       {/* Content area with flex-grow to push pagination to bottom */}
-      <div className="flex-grow">
+      <div className="flex-grow sm:flex-grow md:flex-grow lg:flex-grow xl:flex-grow 
+                flex sm:block flex-col items-center sm:items-start 
+                max-w-7xl sm:max-w-none mx-auto sm:mx-0 px-4 sm:px-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPage}
@@ -121,7 +123,7 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
             )}
           </motion.div>
         </AnimatePresence>
-        <div className=" pt-4">
+        <div className="w-full pt-4">
           <div className={`flex justify-center gap-2 flex-wrap
             ${currentTeachers?.length === 0 ? 'hidden' : ''}`}>
             <motion.button
