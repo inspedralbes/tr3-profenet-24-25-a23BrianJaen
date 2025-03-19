@@ -12,8 +12,10 @@ import ModalTitle from "./ModalTitle";
 import { cloneCoursesTeacher } from "@/src/services/communicationManager";
 
 import { useTeachers } from "@/src/hooks/useTeachers";
+import { useSearchAndPagination } from "@/src/hooks/useSearchAndPagination";
 
 import { Toaster, toast } from "sonner"
+import Browser from "../../Layout/Browser";
 
 
 interface ModalProps {
@@ -43,6 +45,16 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
 
   // Get data from custom hook
   const { dataTeachers, isLoading, error } = useTeachers();
+
+  const {
+    setCurrentPage,
+    searchTerm,
+    handleSearch,
+    currentItems: currentTeachers,
+  } = useSearchAndPagination({
+    items: dataTeachers,
+    itemsPerPage: 8
+  });
 
   // You can now use data, isLoading, and error in your component
   console.log(dataTeachers, isLoading, error);
@@ -101,7 +113,6 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
     }));
 
   };
-
 
   const handleClassesClick = (id: string, name: string, shortname: string) => {
     setSelectedClasses((prev) => {
@@ -220,9 +231,6 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
         }, 3000);
       }
 
-      // setInterval(() => {
-      //   handleCloseModal();
-      // }, 3000);
     }
   };
 
@@ -234,6 +242,12 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
           <h2 className="text-xl font-semibold text-primary p-2">
             {title || "Clonar professor"}
           </h2>
+          <div className={`${step === 3 ? 'block' : 'hidden'}`}>
+            <Browser
+              searchTerm={searchTerm}
+              handleSearch={handleSearch}
+              setCurrentPage={setCurrentPage} />
+          </div>
           <button className="px-4 py-2">
             <X className="h-7 w-7 cursor-pointer text-primary" onClick={handleCloseModal} />
           </button>
@@ -270,7 +284,7 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
               <div>
                 <ModalTitle normalText="Selecciona un docent" highlightedText="destí" additionalText="per clonar" />
                 {/* Placeholder for a destination teacher*/}
-                {dataTeachers && dataTeachers?.map((teacher) => (
+                {currentTeachers && currentTeachers?.map((teacher) => (
                   <SelectedCloneTeacher
                     key={teacher.id}
                     teacher={teacher}

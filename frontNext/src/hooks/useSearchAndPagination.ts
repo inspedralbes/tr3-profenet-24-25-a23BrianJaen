@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TeacherMoodle } from '../types/types';
 
 interface UseSearchAndPaginationProps {
-  items: TeacherMoodle[];
+  items: TeacherMoodle[] | null;
   itemsPerPage?: number;
 }
 
@@ -11,7 +11,7 @@ export const useSearchAndPagination = ({ items, itemsPerPage }: UseSearchAndPagi
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filter items
-  const filteredItems = items.filter((item) =>
+  const filteredItems = items?.filter((item) =>
     `${item.firstname} ${item.lastname}`
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
@@ -20,8 +20,8 @@ export const useSearchAndPagination = ({ items, itemsPerPage }: UseSearchAndPagi
   // Calculate pagination
   const indexOfLastItem = currentPage * (itemsPerPage ?? 8);
   const indexOfFirstItem = indexOfLastItem - (itemsPerPage ?? 8);
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(filteredItems.length / (itemsPerPage ?? 8));
+  const currentItems = filteredItems?.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((filteredItems?.length || 0) / (itemsPerPage ?? 8));
 
   // Handle search
   const handleSearch = (term: string) => {

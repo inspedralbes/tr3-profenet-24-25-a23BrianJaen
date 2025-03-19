@@ -74,7 +74,6 @@ export default function ModalManageCoursesTeacher({ isOpen, onClose, title, teac
   };
 
   const handleCloseModal = () => {
-    // setSelectedTeacherDestination(null);
     setSelectedClasses([]);
     setStep(1);
     setCountdown(4); // Reset countdown when closing

@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 import { useSearchAndPagination } from '../hooks/useSearchAndPagination';
+import Browser from "./common/Layout/Browser";
 
 interface ClientTeachersProps {
   teachers: TeacherMoodle[];
@@ -22,44 +23,11 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
     searchTerm,
     handleSearch,
     currentItems: currentTeachers,
-    totalPages
+    totalPages,
   } = useSearchAndPagination({
     items: teachers,
     itemsPerPage: 8
   });
-
-  // const teachersPerPage = 8;
-
-  // Calculate the teachers to display for the current page
-  // const indexOfLastTeacher = currentPage * teachersPerPage;
-  // const indexOfFirstTeacher = indexOfLastTeacher - teachersPerPage;
-  // Add this state near your other useState declarations
-  // const [searchTerm, setSearchTerm] = useState("");
-
-  // Filter teachers
-  // const filteredTeachers = teachers.filter((teacher) =>
-  //   `${teacher.firstname} ${teacher.lastname}`
-  //     .toLowerCase()
-  //     .includes(searchTerm.toLowerCase())
-  // );
-
-  // Update the currentTeachers calculation
-  // const currentTeachers = filteredTeachers.slice(indexOfFirstTeacher, indexOfLastTeacher);
-
-  // Update the totalPages calculation to use filtered results
-  // const totalPages = Math.ceil(filteredTeachers.length / teachersPerPage);
-
-  // Update the input element
-  // <input
-  //   className="border border-gray-300 rounded-md p-2"
-  //   type="text"
-  //   placeholder="Introdueix un nom"
-  //   value={searchTerm}
-  //   onChange={(e) => {
-  //     setSearchTerm(e.target.value);
-  //     setCurrentPage(1); // Reset to first page when searching
-  //   }}
-  // />
 
   const handlePageChange = (pageNumber: number) => {
     if (pageNumber < 1 || pageNumber > totalPages || pageNumber === currentPage) return;
@@ -103,21 +71,11 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
     <div className="container flex flex-col">
       <div className="flex gap-2 p-2 items-center md:mb-6 sm:mb-2 justify-between">
         <TitlePage text="Professors" />
-        <div className="relative group">
-          <input
-            className="border border-gray-300 rounded-md p-2"
-            type="text"
-            placeholder="Introdueix un nom"
-            value={searchTerm}
-            onChange={(e) => {
-              handleSearch(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
-          <div className="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded-md px-2 py-1 -bottom-8 right-0 whitespace-nowrap">
-            Cerca un professor pel seu nom
-          </div>
-        </div>
+        <Browser
+          searchTerm={searchTerm}
+          handleSearch={handleSearch}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
 
       {/* Content area with flex-grow to push pagination to bottom */}
@@ -144,22 +102,28 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
                 </motion.div>
               ))
             ) : (
-              // Actual content
-              currentTeachers.map((teach, index) => (
-                <motion.div
-                  key={teach.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                >
-                  <MediaCard teacher={teach} />
-                </motion.div>
-              ))
+              currentTeachers?.length === 0 ? (
+                <p className="col-span-full text-center py-10 text-primary text-lg">
+                  No s&apos;han trobat professors
+                </p>
+              ) : (
+                currentTeachers?.map((teach, index) => (
+                  <motion.div
+                    key={teach.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                  >
+                    <MediaCard teacher={teach} />
+                  </motion.div>
+                ))
+              )
             )}
           </motion.div>
         </AnimatePresence>
         <div className=" pt-4">
-          <div className="flex justify-center gap-2 flex-wrap">
+          <div className={`flex justify-center gap-2 flex-wrap
+            ${currentTeachers?.length === 0 ? 'hidden' : ''}`}>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -168,7 +132,6 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
               className="px-4 py-2 rounded-lg bg-primary hover:cursor-pointer text-primary 
               disabled:cursor-auto disabled:opacity-50 transition-all duration-200"
             >
-              {/* Enrera */}
               <ArrowBigLeft />
             </motion.button>
 
@@ -197,7 +160,6 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
               className="px-4 py-2 hover:cursor-pointer rounded-lg bg-primary text-primary
               disabled:cursor-auto disabled:opacity-50 transition-all duration-200"
             >
-              {/* Següent */}
               <ArrowBigRight />
             </motion.button>
           </div>
