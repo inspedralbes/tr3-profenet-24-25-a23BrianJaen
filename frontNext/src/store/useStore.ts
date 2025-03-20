@@ -2,19 +2,26 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 interface ThemeStore {
-  theme: string
+  currentTheme: string
   setTheme: (theme: string) => void
 }
 
 const getInitialTheme = () => {
-  return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'
+  if (typeof window !== 'undefined') {
+    const storedTheme = localStorage.getItem('theme')
+    return storedTheme || 'light'
+  }
+  return 'dark'
 }
 
 export const useThemeStore = create<ThemeStore>()(
   persist(
     (set) => ({
-      theme: getInitialTheme(),
-      setTheme: (theme) => set({ theme }),
+      currentTheme: getInitialTheme(),
+      setTheme: (theme) => {
+        localStorage.setItem('theme', theme)
+        set({ currentTheme: theme })
+      },
     }),
     {
       name: 'theme-storage',

@@ -71,7 +71,7 @@ export default function Sidebar({ isMenuOpen, toggleMenu }: sidebarProps) {
             {/* Sidebar */}
             <div
               className={`transition-all ease-in-out duration-500 
-              fixed top-0 left-0 w-56 h-full px-4 py-8 z-50
+              fixed top-0 left-0 w-76 h-full px-4 py-14 z-50
               ${isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-[-100%] opacity-0"}
               ${localStorage.getItem("theme") === "dark" ? "bg-card bg-[#101315] border-r-1 border-blue-300" : "bg-card bg-amber-50 border-r-2 border-e-blue-400"}
               `}
@@ -85,13 +85,13 @@ export default function Sidebar({ isMenuOpen, toggleMenu }: sidebarProps) {
                       key={id}
                       href={item.href}
                       className={cn(
-                        "flex items-center gap-x-3 rounded-md px-3 py-2 text-md font-medium",
+                        "flex items-center gap-x-3 rounded-md px-3 py-2 text-xl font-medium",
                         isActive
                           ? "bg-primary text-primary-foreground"
                           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                       )}
                     >
-                      <Icon className="h-5 w-5" />
+                      <Icon className="h-7 w-7" />
                       {item.name}
                     </a>
                   );
