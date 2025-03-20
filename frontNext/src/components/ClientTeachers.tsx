@@ -5,8 +5,9 @@ import { type TeacherMoodle } from "../types/types";
 import TitlePage from "./common/Layout/TitlePage";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import { ArrowBigLeft, ArrowBigRight, ArrowBigUp } from "lucide-react";
 import { useSearchAndPagination } from '../hooks/useSearchAndPagination';
+import { useScrollToTop } from "../hooks/useScrollToTop";
 import Browser from "./common/Layout/Browser";
 
 interface ClientTeachersProps {
@@ -17,6 +18,7 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
   const [isChangingPage, setIsChangingPage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Custom hook for the magnament and pagination of the teachers
   const {
     currentPage,
     setCurrentPage,
@@ -28,6 +30,7 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
     items: teachers,
     itemsPerPage: 8
   });
+  const { showScrollButton, scrollToTop } = useScrollToTop()
 
   const handlePageChange = (pageNumber: number) => {
     if (pageNumber < 1 || pageNumber > totalPages || pageNumber === currentPage) return;
@@ -41,11 +44,8 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
 
   // Scroll to top when changing page
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }, [currentPage]);
+    scrollToTop();
+  }, [currentPage, scrollToTop]);
 
   useEffect(() => {
     setIsLoading(false);
@@ -68,7 +68,7 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
   );
 
   return (
-    <div className="container flex flex-col">
+    <div className="container flex flex-col w-full">
       <div className="flex gap-2 p-2 items-center md:mb-6 sm:mb-2 justify-between">
         <TitlePage text="Professors" />
         <Browser
@@ -175,6 +175,11 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
             Página {currentPage} de {totalPages}
           </motion.p>
         </div>
+      </div>
+      <div className={`md:hidden fixed bottom-11 right-4 transition-opacity duration-300 ${showScrollButton ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <button onClick={scrollToTop} className="p-2 border rounded-sm bg-primary text-primary hover:bg-accent transition-colors duration-200 shadow-lg">
+          <ArrowBigUp className="h-6 w-6" />
+        </button>
       </div>
     </div>
   );
