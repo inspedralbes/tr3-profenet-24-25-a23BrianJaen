@@ -29,8 +29,7 @@ export default function Header() {
       <Link href="/" className="font-bold text-2xl">
         <span className="">ProfeNet</span>
       </Link>
-      <div className="mb-3">
-
+      <div className="sm:mb-0 mb-3">
         <ToogleTheme />
       </div>
     </div>
