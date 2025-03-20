@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link";
 import { usePathname } from 'next/navigation'
 
 import { cn } from "@/src/services/utils";
@@ -22,10 +21,7 @@ export default function Sidebar({ isMenuOpen, toggleMenu }: sidebarProps) {
     <div className="flex h-full">
       {/* Sidebar for large devices */}
       <div className="hidden md:flex flex-col w-56 bg-card bg-background">
-        <Link href="/" className="text-2xl font-bold bg-background p-4">
-          <h3>ProfeNet</h3>
-        </Link>
-        <aside className="flex-1 space-y-1 px-2 py-4 relative">
+        <aside className="flex-1 space-y-1 mt-10 px-2 py-4 relative">
           {navigation &&
             navigation.map((item, id) => {
               const isActive = currentPath === item.href;

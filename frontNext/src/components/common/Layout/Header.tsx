@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useTheme } from "next-themes";
+import { useTheme } from 'next-themes';
+
 
 import { Menu } from "lucide-react";
 
@@ -21,7 +22,7 @@ export default function Header() {
   };
 
   return (
-    <div className={`flex items-center justify-between md:px-3 md:py-2 sm:px-2 sm:py-1 border-b border-primary ${isDark ? 'bg-[#000]' : ''}`}>
+    <div className={`flex items-center justify-between md:px-3 md:py-2 sm:px-2 sm:py-1 border-b md:border-l border-primary ${isDark ? 'bg-[#131213]' : 'bg-[#fff]'}`}>
       <div className="md:hidden">
         <button
           onClick={toggleMenu}
@@ -32,7 +33,7 @@ export default function Header() {
         <Sidebar isMenuOpen={isOpen} toggleMenu={toggleMenu} />
       </div>
       <Link href="/" className="font-bold text-2xl">
-        <span>ProfeNet</span>
+        <span className="">ProfeNet</span>
       </Link>
       <ToogleTheme />
     </div>
