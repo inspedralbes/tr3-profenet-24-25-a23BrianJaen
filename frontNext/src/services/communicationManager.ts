@@ -53,11 +53,6 @@ export const cloneCoursesTeacher = async (teacherId: string, courses: CourseId[]
 
 export const manageCoursesTeacher = async (teacherId: string, courses: CourseId[]) => {
 
-  console.log(JSON.stringify({
-    teacherId,
-    courses: courses
-  }));
-
   return fetch(`${API_URL_NODE}/manageCourses`, {
     method: 'POST',
     headers: {
