@@ -78,3 +78,7 @@ interface ModalProps {
   teacher: TeacherMoodle;
   courses: Courses[];
 }
+
+interface CourseId {
+  id: string;
+}
