@@ -10,11 +10,15 @@ export const useSearchAndPagination = ({ items, itemsPerPage }: UseSearchAndPagi
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const removeAccents = (str: string) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
   // Filter items
   const filteredItems = items?.filter((item) =>
-    `${item.firstname} ${item.lastname}`
+    removeAccents(`${item.firstname} ${item.lastname}`)
       .toLowerCase()
-      .includes(searchTerm.toLowerCase())
+      .includes(removeAccents(searchTerm).toLowerCase())
   );
 
   // Calculate pagination
