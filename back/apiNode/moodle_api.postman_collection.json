@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "b5f8e3d2-1234-5678-90ab-cdef12345678",
+		"name": "Moodle API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Teachers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/webservice/rest/server.php?wstoken=c5578c0a8d8fd93d4c70f16d2546a179&wsfunction=core_enrol_get_enrolled_users&moodlewsrestformat=json&courseid=4&options[0][name]=roleid&options[0][value]=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"webservice",
+						"rest",
+						"server.php"
+					],
+					"query": [
+						{
+							"key": "wstoken",
+							"value": "c5578c0a8d8fd93d4c70f16d2546a179"
+						},
+						{
+							"key": "wsfunction",
+							"value": "core_enrol_get_enrolled_users"
+						},
+						{
+							"key": "moodlewsrestformat",
+							"value": "json"
+						},
+						{
+							"key": "courseid",
+							"value": "4"
+						},
+						{
+							"key": "options[0][name]",
+							"value": "roleid"
+						},
+						{
+							"key": "options[0][value]",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users by Role",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/webservice/rest/server.php?wstoken=c5578c0a8d8fd93d4c70f16d2546a179&wsfunction=core_enrol_get_enrolled_users&moodlewsrestformat=json&courseid={{courseId}}&options[0][name]=roleid&options[0][value]={{roleId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"webservice",
+						"rest",
+						"server.php"
+					],
+					"query": [
+						{
+							"key": "wstoken",
+							"value": "c5578c0a8d8fd93d4c70f16d2546a179"
+						},
+						{
+							"key": "wsfunction",
+							"value": "core_enrol_get_enrolled_users"
+						},
+						{
+							"key": "moodlewsrestformat",
+							"value": "json"
+						},
+						{
+							"key": "courseid",
+							"value": "{{courseId}}"
+						},
+						{
+							"key": "options[0][name]",
+							"value": "roleid"
+						},
+						{
+							"key": "options[0][value]",
+							"value": "{{roleId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
