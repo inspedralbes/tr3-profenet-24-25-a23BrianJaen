@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import authMiddleware from './middleware/authMiddleware.js';
 import moodleRoutes from './routes/moodleRoutes.js';
+import { loggerMiddleware } from './middleware/loggerMiddleware.js';
 
 const app = express();
 const port = CONFIG.PORT || 3010;
@@ -10,6 +11,7 @@ const port = CONFIG.PORT || 3010;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(loggerMiddleware); // Add this before routes
 app.use(authMiddleware);
 
 // Routes
