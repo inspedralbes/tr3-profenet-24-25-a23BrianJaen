@@ -30,6 +30,7 @@ jobs:
           name: next-build
           path: |
             .next/
+            .env.local
             public/
             package.json
             package-lock.json
