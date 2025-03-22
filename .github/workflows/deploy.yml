@@ -6,9 +6,9 @@ on:
       - feature_add_CI-CD
 
 jobs:
-  deploy-api:
-    uses: ./.github/workflows/deployNode.yml
+  # deploy-api:
+  #   uses: ./.github/workflows/deployNode.yml
 
   deploy-frontend:
-    needs: deploy-api
+    # needs: deploy-api
     uses: ./.github/workflows/deployNextJs.yml
