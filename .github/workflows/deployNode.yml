@@ -26,10 +26,10 @@ jobs:
         with:
           name: node-api
           path: |
-            ./src/**
-            ./package.json
-            ./package-lock.json
-            ./.env
+            src/**
+            package.json
+            package-lock.json
+            .env
 
   deploy:
     runs-on: ubuntu-latest
