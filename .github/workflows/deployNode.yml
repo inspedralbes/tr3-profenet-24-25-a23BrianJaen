@@ -26,10 +26,10 @@ jobs:
         with:
           name: node-api
           path: |
-            src/
-            package.json
-            package-lock.json
-            .env
+            ./src/**
+            ./package.json
+            ./package-lock.json
+            ./.env
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,13 +39,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-api
-          path: ./dist
+          path: ./temp-deploy
 
       - name: Deploy to production
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/prod_key.pem
           chmod 600 ~/prod_key.pem
-          scp -r -o StrictHostKeyChecking=no -i "~/prod_key.pem" ./dist/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/a23brijaemed/web/a23brijaemed.daw.inspedralbes.cat/public_html/nodeJs
+          scp -r -o StrictHostKeyChecking=no -i "~/prod_key.pem" ./temp-deploy/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/a23brijaemed/web/a23brijaemed.daw.inspedralbes.cat/public_html/nodeJs
 
       - name: Cleanup
         if: always()
