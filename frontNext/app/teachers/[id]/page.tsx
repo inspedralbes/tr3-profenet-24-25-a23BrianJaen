@@ -1,13 +1,8 @@
 import { getTeacherCoursesById } from "@/src/services/communicationManager";
 import ClientTeacherProfile from "../../../src/components/ClientTeacherProfile";
 
-interface Props {
-  params: { id: string };
-}
-
-export default async function TeacherProfile({ params }: Props) {
-  //  Acces ID from the `params` object
-  const { id } = params;
+export default async function TeacherProfile({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   const dataCourses = await getTeacherCoursesById(id);
 

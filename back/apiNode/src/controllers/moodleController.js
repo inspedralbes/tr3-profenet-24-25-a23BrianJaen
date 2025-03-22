@@ -1,3 +1,6 @@
+import { CONFIG } from "../config/config.js";
+
+
 /**
  * Get all courses available.
  * @returns {Promise<Array>} List of available courses.
@@ -5,12 +8,12 @@
 export async function getCourses() {
   try {
     const params = new URLSearchParams({
-      wstoken: process.env.MOODLE_API_TOKEN,
+      wstoken: CONFIG.MOODLE_API_TOKEN,
       wsfunction: "core_course_get_courses",
       moodlewsrestformat: "json",
     });
 
-    const url = `${process.env.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`;
+    const url = `${CONFIG.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`;
 
     const response = await fetch(url);
 
@@ -40,13 +43,13 @@ async function getEnrolledUsers(courseId) {
   try {
 
     const params = new URLSearchParams({
-      wstoken: process.env.MOODLE_API_TOKEN,
+      wstoken: CONFIG.MOODLE_API_TOKEN,
       wsfunction: "core_enrol_get_enrolled_users",
       moodlewsrestformat: "json",
       courseid: courseId,
     });
 
-    const url = `${process.env.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`
+    const url = `${CONFIG.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`
 
     const response = await fetch(url);
 
@@ -177,14 +180,14 @@ async function getAllUsersMoodle() {
   try {
 
     const params = new URLSearchParams({
-      wstoken: process.env.MOODLE_API_TOKEN,
+      wstoken: CONFIG.MOODLE_API_TOKEN,
       wsfunction: "core_user_get_users",
       moodlewsrestformat: "json",
       "criteria[0][key]": "",
       "criteria[0][value]": "",
     });
 
-    const url = `${process.env.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`
+    const url = `${CONFIG.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`
 
     const response = await fetch(url);
 
@@ -232,7 +235,7 @@ export async function cloneCourses(req, res) {
     console.log('Selected Classes:', courses);
 
     const params = new URLSearchParams();
-    params.append("wstoken", process.env.MOODLE_API_TOKEN);
+    params.append("wstoken", CONFIG.MOODLE_API_TOKEN);
     params.append("wsfunction", "enrol_manual_enrol_users");
     params.append("moodlewsrestformat", "json");
 
@@ -242,7 +245,7 @@ export async function cloneCourses(req, res) {
       params.append(`enrolments[${index}][courseid]`, course.id.toString());
     });
 
-    const url = `${process.env.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`
+    const url = `${CONFIG.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`
     const response = await fetch(url);
     const data = await response.json();
 
@@ -277,7 +280,7 @@ export async function manageCourses(req, res) {
     console.log('Selected Classes:', courses);
 
     const params = new URLSearchParams();
-    params.append("wstoken", process.env.MOODLE_API_TOKEN);
+    params.append("wstoken", CONFIG.MOODLE_API_TOKEN);
     params.append("wsfunction", "enrol_manual_unenrol_users");
     params.append("moodlewsrestformat", "json");
 
@@ -287,7 +290,7 @@ export async function manageCourses(req, res) {
       params.append(`enrolments[${index}][courseid]`, course.id.toString());
     });
 
-    const url = `${process.env.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`
+    const url = `${CONFIG.MOODLE_API_URL}/webservice/rest/server.php?${params.toString()}`
     const response = await fetch(url);
     const data = await response.json();
 
