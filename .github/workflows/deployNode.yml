@@ -6,11 +6,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./back/apiNode
     steps:
       - uses: actions/checkout@v4
+      
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -19,7 +17,16 @@ jobs:
           cache-dependency-path: './back/apiNode/package-lock.json'
       
       - name: Install dependencies
+        working-directory: ./back/apiNode
         run: npm ci
+      
+      - name: Prepare .env if needed
+        working-directory: ./back/apiNode
+        run: |
+          if [ ! -f ".env" ]; then
+            echo "Creating .env file"
+            touch .env
+          fi
       
       - name: Upload API files
         uses: actions/upload-artifact@v4
@@ -41,12 +48,50 @@ jobs:
           name: node-api
           path: ./temp-deploy
 
-      - name: Deploy to production
+      - name: Debug environment and connection
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/prod_key.pem
-          chmod 600 ~/prod_key.pem
-          scp -r -o StrictHostKeyChecking=no -i "~/prod_key.pem" ./temp-deploy/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/a23brijaemed/web/a23brijaemed.daw.inspedralbes.cat/public_html/nodeJs
+          echo "Checking variables..."
+          
+          # Verificar variables sin mostrar contenido sensible
+          if [ -z "$SSH_HOST" ]; then
+            echo "ERROR: SSH_HOST is empty or not defined"
+            exit 1
+          else
+            echo "SSH_HOST is defined (value hidden for security)"
+            echo "Attempting to resolve hostname: $SSH_HOST"
+            nslookup $SSH_HOST || echo "WARNING: Cannot resolve hostname"
+          fi
+          
+          if [ -z "$SSH_USER" ]; then
+            echo "ERROR: SSH_USER is empty or not defined"
+            exit 1
+          else
+            echo "SSH_USER is defined (value hidden for security)"
+          fi
+          
+          if [ -z "$SSH_PRIVATE_KEY" ]; then
+            echo "ERROR: SSH_PRIVATE_KEY is empty or not defined"
+            exit 1
+          else
+            echo "SSH_PRIVATE_KEY appears to be set"
+            echo "$SSH_PRIVATE_KEY" | grep -q "BEGIN" || echo "WARNING: SSH_PRIVATE_KEY does not contain the expected format"
+          fi
+          
+          # Imprimir archivos disponibles
+          echo "Files to deploy:"
+          ls -la ./temp-deploy
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Cleanup
-        if: always()
-        run: rm -f ~/prod_key.pem
+      - name: Deploy via SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "./temp-deploy/*"
+          target: "/home/a23brijaemed/web/a23brijaemed.daw.inspedralbes.cat/public_html/nodeJs"
+          strip_components: 1
+          debug: true
