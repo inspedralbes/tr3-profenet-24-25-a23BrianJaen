@@ -42,11 +42,6 @@ export default function ClientTeachers({ teachers }: ClientTeachersProps) {
     }, 300); // Duration animation exit 
   };
 
-  // Scroll to top when changing page
-  useEffect(() => {
-    scrollToTop();
-  }, [currentPage, scrollToTop]);
-
   useEffect(() => {
     setIsLoading(false);
   }, []);
