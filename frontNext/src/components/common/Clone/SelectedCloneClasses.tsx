@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes";
 import { Courses } from "../../../types/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Check } from "lucide-react";
 
 interface SelectedCloneClassesProps {
@@ -18,10 +18,6 @@ export default function SelectedCloneClasses({
 
   // Estate for managing loaded classes
   const [classes] = useState<Courses[]>(initialClasses);
-
-  useEffect(() => {
-    console.log(selectedClasses);
-  }, [selectedClasses]);
 
   return (
     <div className="max-h-[60vh] overflow-y-auto">

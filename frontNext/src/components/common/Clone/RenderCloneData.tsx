@@ -10,7 +10,6 @@ interface RenderCloneDataProps {
 }
 
 export default function RenderCloneData({ payload }: RenderCloneDataProps) {
-  console.log(payload.originTeacher, payload.destinationTeacher, payload.selectedClasses);
 
   return (
     <div className="p-4 border rounded-lg shadow-lg bg-background">

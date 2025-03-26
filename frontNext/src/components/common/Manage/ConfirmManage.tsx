@@ -10,8 +10,6 @@ interface ConfirmManageProps {
 
 export default function ConfirmManage({ payload }: ConfirmManageProps) {
 
-  console.log(payload);
-
   return (
     <div>
       <RenderManageData payload={payload} />

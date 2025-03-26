@@ -3,7 +3,6 @@
 import { TeacherDetailManageProps } from "../../../types/types";
 
 export default function TeacherDetailManage({ payload, text }: TeacherDetailManageProps) {
-  console.log(payload);
 
   return (
     <>

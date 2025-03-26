@@ -90,8 +90,6 @@ export default function ModalManageCoursesTeacher({ isOpen, onClose, title, teac
 
   const handleSendRequestToBack = async () => {
 
-    console.log(selectedTeacherDestination);
-
     if (!selectedTeacherDestination || selectedClasses.length === 0) return;
 
     const coursesSelecteds = new Map();
@@ -105,7 +103,6 @@ export default function ModalManageCoursesTeacher({ isOpen, onClose, title, teac
       Array.from(coursesSelecteds.values())
     );
 
-    console.log(response);
     if (response == "success") {
       toast.success("Desuscrit correctamente", {
         description: (

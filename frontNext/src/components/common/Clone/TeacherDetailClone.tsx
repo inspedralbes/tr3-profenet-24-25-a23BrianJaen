@@ -3,7 +3,6 @@
 import { TeacherDetailCloneProps } from "../../../types/types";
 
 export default function TeacherDetailClone({ payload, text }: TeacherDetailCloneProps) {
-  console.log(payload);
 
   return (
     <>

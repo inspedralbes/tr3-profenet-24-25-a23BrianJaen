@@ -44,7 +44,7 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
   });
 
   // Get data from custom hook
-  const { dataTeachers, isLoading, error } = useTeachers();
+  const { dataTeachers } = useTeachers();
 
   const {
     setCurrentPage,
@@ -56,8 +56,6 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
     itemsPerPage: 8
   });
 
-  // You can now use data, isLoading, and error in your component
-  console.log(dataTeachers, isLoading, error);
 
   // Reset when the modal is open or closed
   useEffect(() => {
@@ -195,7 +193,6 @@ export default function ModalCloneTeacher({ isOpen, onClose, title, teacher, cou
         Array.from(coursesSelecteds.values())
       );
 
-      console.log(response);
       if (response == "success") {
         toast.success("Clonació completada", {
           description: (

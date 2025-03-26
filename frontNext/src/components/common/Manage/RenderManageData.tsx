@@ -10,7 +10,6 @@ interface RenderManageDataProps {
 }
 
 export default function RenderManageData({ payload }: RenderManageDataProps) {
-  console.log(payload.destinationTeacher, payload.selectedClasses);
 
   return (
     <div className="p-4 border rounded-lg shadow-lg bg-background">
