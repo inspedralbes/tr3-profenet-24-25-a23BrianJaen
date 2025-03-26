@@ -1,4 +1,4 @@
-import { type TeacherMoodle } from "../types/types";
+import { type TeacherMoodle, type CourseId } from "../types/types";
 
 const API_URL_NODE = process.env.NEXT_PUBLIC_API_URL_NODE;
 
@@ -34,15 +34,7 @@ export const searchUsers = async (searchTerm: string): Promise<TeacherMoodle[]> 
     .then(response => response.data);
 };
 
-interface CourseId {
-  id: string;
-}
-
 export const cloneCoursesTeacher = async (teacherId: string, courses: CourseId[]) => {
-  console.log(JSON.stringify({
-    teacherId,
-    courses: courses
-  }));
 
   return fetch(`${API_URL_NODE}/cloneCourses`, {
     method: 'POST',
@@ -60,13 +52,6 @@ export const cloneCoursesTeacher = async (teacherId: string, courses: CourseId[]
 };
 
 export const manageCoursesTeacher = async (teacherId: string, courses: CourseId[]) => {
-
-  console.log("entra en el comunication manager");
-
-  console.log(JSON.stringify({
-    teacherId,
-    courses: courses
-  }));
 
   return fetch(`${API_URL_NODE}/manageCourses`, {
     method: 'POST',

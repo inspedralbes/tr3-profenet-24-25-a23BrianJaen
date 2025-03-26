@@ -1,0 +1,113 @@
+name: Deploy Next.js Frontend
+run-name: ${{ github.actor }} està desplegant el Frontend 🚀
+on:
+  workflow_call:
+
+jobs:
+  build-next:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontNext
+    steps:
+
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: './frontNext/package-lock.json'
+      
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./frontNext
+
+      - name: Create .env.local file
+        run: |
+          touch .env.local
+          echo "NEXT_PUBLIC_API_URL_NODE=${{secrets.NEXT_PUBLIC_API_URL_NODE}}" > .env.local
+
+      - name: Build Next.js app
+        run: npm run build
+        working-directory: ./frontNext
+      
+      - name: Upload build artifacts .next
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: |
+            ./frontNext/.next
+          include-hidden-files: true
+
+      - name: Upload build artifacts pachages
+        uses: actions/upload-artifact@v4
+        with: 
+          name: package-build
+          path: |
+            ./frontNext/package.json
+            ./frontNext/package-lock.json 
+
+  deploy-next:
+    runs-on: ubuntu-latest
+    needs: [build-next]
+    
+    steps:
+      - name: Download build artifacts next
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build
+          path: .next
+        env: 
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+
+       # Execute comands in the remote server
+      - name: Execute remote commands
+        uses: appleboy/ssh-action@master
+        env:
+          NEXT_PORT: 22224
+        with:
+          host: daw.inspedralbes.cat
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/a23brijaemed/web/profenet.daw.inspedralbes.cat/public_html
+            mkdir .next 2>/dev/null || echo "Directory .next already exists"
+      
+      - name: Download build artifacts next
+        uses: actions/download-artifact@v4
+        with:
+          name: package-build
+          path: temp-package
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+
+      - name: Deploy to production server
+        run: |
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/prod_key.pem
+            chmod 600 ~/prod_key.pem
+            scp -r -o StrictHostKeyChecking=no -i "~/prod_key.pem" .next/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/a23brijaemed/web/profenet.daw.inspedralbes.cat/public_html/.next
+            scp -r -o StrictHostKeyChecking=no -i "~/prod_key.pem" temp-package/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/a23brijaemed/web/profenet.daw.inspedralbes.cat/public_html
+      
+      # Execute comands in the remote server
+      - name: Execute remote commands
+        uses: appleboy/ssh-action@master
+        env:
+          NEXT_PORT: 22222
+        with:
+          host: daw.inspedralbes.cat
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/a23brijaemed/web/profenet.daw.inspedralbes.cat/public_html
+            # Kill existing screen session if it exists
+            screen -X -S nextjs quit || true
+            # Start a new screen session
+            screen -dmS nextjs bash -c 'npm install && PORT=${{ env.NEXT_PORT }} npm run start'
+            echo "Next.js server restarted in screen session 'nextjs' on port ${{ env.NEXT_PORT }}"
+  
+      - run: echo "This job's status is ${{ job.status }}."
