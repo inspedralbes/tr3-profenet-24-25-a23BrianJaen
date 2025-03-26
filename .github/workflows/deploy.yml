@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} està desplegant l'aplicació completa 🚀
 on:
   push:
     branches:
-      - feature_CI-CD
+      - main
 
 jobs:
   deploy-api:
