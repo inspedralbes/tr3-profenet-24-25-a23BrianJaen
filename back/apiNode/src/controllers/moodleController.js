@@ -109,6 +109,10 @@ export async function getTeachersByCourses(req, res) {
     });
   }
 
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+
   // Convert the Map to an array of teachers
   const teachersArray = Array.from(teacherCourseMap.values());
   res.json({ status: 'success', data: teachersArray });
