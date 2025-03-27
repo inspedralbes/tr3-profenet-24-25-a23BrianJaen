@@ -13,7 +13,7 @@
 
 - **Frontend:**
 
-  - Next.js 14 amb TypeScript
+  - Next.js 15 amb TypeScript
   - Tailwind CSS per l'estilització
   - Shadcn/ui per components
   - React Query per gestió d'estat i caching
@@ -21,7 +21,6 @@
 - **Backend:**
   - Node.js amb Express
   - Integració amb API Moodle
-  - Sistema de logging personalitzat
 
 ### Interrelació entre components
 
@@ -33,7 +32,7 @@
 
 ### Requisits previs
 
-- Node.js 18 o superior
+- Node.js 20 o superior
 - Git
 - Compte de GitHub
 - Variables d'entorn configurades
@@ -60,6 +59,12 @@ mkdir .env.local
 cd back/apiNode
 npm install
 mkdir .env
+```
+
+4. Aixecar l'entorn de desenvolupament:
+
+```bash
+docker compose up -d
 ```
 
 ## Desplegament a producció
