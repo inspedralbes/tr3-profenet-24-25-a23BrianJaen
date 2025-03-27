@@ -1,16 +1,41 @@
-# transversals
-Esquema mínim de carpetes pels projectes transversals
+# ProfeNet
 
-És obligatori seguir aquesta estructura tot i que la podeu ampliar.
+## Integrants
 
-## Atenció
-Un cop comenceu heu de canviar aquesta explicació amb la corresponent al vostre projecte (utilitzant markdown)
+- Brian Jaén Medina
 
-# Aquest fitxer ha de contenir com a mínim:
- * Nom dels integrants
- * Nom del projecte
- * Petita descripció
- * Adreça del gestor de tasques (taiga, jira, trello...)
- * Adreça del prototip gràfic del projecte (Penpot, figma, moqups...)
- * URL de producció (quan la tingueu)
- * Estat: (explicació d'en quin punt està)
+## Descripció del Projecte
+
+ProfeNet és una plataforma educativa que facilita la gestió i visualització dels cursos dels professors. Permet als professors veure els seus cursos assignats i gestionar-los de manera eficient, oferint una interfície intuïtiva i moderna.
+
+## Eines de Gestió
+
+- **Gestor de Tasques:** [Kanban ProfeNet](https://tree.taiga.io/project/a23brianjaen-tr3-profenet/timeline)
+- **Disseny UI/UX:** [Penpot ProfeNet](https://tree.taiga.io/project/a23brianjaen-tr3-profenet/timeline)
+
+## URL
+
+- **Producció:** [ProfeNet](http://profenet.daw.inspedralbes.cat:22222/)
+
+## Estat Actual del Projecte
+
+El projecte es troba en fase de desenvolupament actiu amb les següents característiques implementades:
+
+- ✅ Visualització de cursos per professor
+- ✅ Gestió de cursos (assignació/desassignació)
+- ✅ Interfície responsive
+- ✅ Integració amb API de Moodle
+- ✅ CI/CD implementat amb GitHub Actions
+
+### Pròximes Funcionalitats
+
+- 🔄 Millores en la interfície d'usuari
+- 🔄 Optimització del rendiment
+- 🔄 Implementació de més funcionalitats de gestió
+
+## Tecnologies Utilitzades
+
+- Frontend: Next.js, TypeScript, Tailwind CSS
+- Backend: Node.js, Express
+- Integració: API Moodle
+- Desplegament: GitHub Actions
