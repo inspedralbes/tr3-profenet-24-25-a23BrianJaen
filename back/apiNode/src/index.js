@@ -2,7 +2,7 @@ import { CONFIG } from './config/config.js';
 import express from 'express';
 import cors from 'cors';
 import authMiddleware from './middleware/authMiddleware.js';
-import moodleRoutes from './routes/moodleroutes.js';  // Fixed case sensitivity
+import moodleRoutes from './routes/moodleRoutes.js';
 import { loggerMiddleware } from './middleware/loggerMiddleware.js';
 
 const app = express();
