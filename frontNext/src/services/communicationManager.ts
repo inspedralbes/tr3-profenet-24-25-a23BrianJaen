@@ -3,12 +3,13 @@ import { type TeacherMoodle, type CourseId } from "../types/types";
 const API_URL_NODE = process.env.NEXT_PUBLIC_API_URL_NODE;
 
 export const getTeachers = async (): Promise<TeacherMoodle[]> => {
-  return fetch(`${API_URL_NODE}/getTeachers?timestamp=${Date.now()}`, { // Añadir un parámetro dinámico
+  return fetch(`${API_URL_NODE}/getTeachers?timestamp=${Date.now()}`, {
     method: 'GET',
     headers: {
-      'Cache-Control': 'no-cache', // Indica que no debe cachearse la respuesta
-      Pragma: 'no-cache',          // Asegura compatibilidad con navegadores antiguos
+      'Cache-Control': 'no-cache',
+      Pragma: 'no-cache',
     },
+    cache: 'no-store',
   })
     .then(res => {
       if (!res.ok) {
